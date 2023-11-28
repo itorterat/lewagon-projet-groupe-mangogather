@@ -34,6 +34,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_145041) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.bigint "author_id", null: false
+    t.bigint "services_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_reviews_on_author_id"
+    t.index ["services_id"], name: "index_reviews_on_services_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.bigint "category_id", null: false
     t.bigint "user_id", null: false
@@ -61,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_145041) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "reviews", "services", column: "services_id"
+  add_foreign_key "reviews", "users", column: "author_id"
   add_foreign_key "bookings", "services"
   add_foreign_key "bookings", "users", column: "author_id"
   add_foreign_key "services", "categories"
