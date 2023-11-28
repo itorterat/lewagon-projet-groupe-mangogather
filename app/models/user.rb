@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :bookings, foreign_key: 'author_id'
+
   enum :status, { visible: 0, invisible: 1 }, default: :visible
 
   validates :status, inclusion: { in: statuses.keys }
