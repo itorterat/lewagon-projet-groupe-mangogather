@@ -13,12 +13,8 @@
 	fill: inherit;
 }
 
-.flatpickr-confirm.darkTheme {
-	color: white;
-	fill: white;
-}
-
 .flatpickr-confirm.visible {
 	max-height: 40px;
-	visibility: visible
+	visibility: visible;
+	background: white;
 }
