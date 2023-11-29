@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-  # has_many :users, through: :services
+  has_many :services
 end
