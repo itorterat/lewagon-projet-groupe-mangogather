@@ -1,5 +1,7 @@
-<div class="text-center">
-<h1>Bienvenue sur Mangogather..</h1>
+<div class="container my-3">
+  <%= render 'shared/search_form' %>
 
+  <% @users.each do |user| %>
+    <p><%= user.email %>, <%= user.city %>, <%= user.services.joins(:category).pluck('categories.name').uniq %></p>
+  <% end %>
 </div>
-<%= render 'shared/search_form' %>
