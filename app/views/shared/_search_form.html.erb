@@ -1,0 +1,5 @@
+<%= simple_form_for :search, url: search_path, method: :get do |f| %>
+  <%= f.input :city, required: false, label: 'Ville', as: :string, input_html: { name: 'city' }, placeholder: 'Paris, Toulouse, ...' %>
+  <%= f.input :category, required: false, label: 'Catégorie', collection: Category.all.map(&:name), include_blank: 'Bricolage, Informatique, ...', input_html: { name: 'category' } %>
+  <%= f.button :submit, 'Chercher' %>
+<% end %>
