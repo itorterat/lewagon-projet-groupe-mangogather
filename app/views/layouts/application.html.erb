@@ -11,11 +11,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body>
-    <%= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
-    <%= yield %>
+  <body class="d-flex flex-column min-vh-100 ">
+    <div class="flex-grow-1">
+      <%= render "shared/navbar" %>
+      <%= render "shared/flashes" %>
+      <%= yield %>
+    </div>
+      <%= render "shared/footer" %>
   </body>
   <script src="https://unpkg.com/flatpickr@4.6.9/dist/plugins/scrollPlugin.js"></script>
 </html>
