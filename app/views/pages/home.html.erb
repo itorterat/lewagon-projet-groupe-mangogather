@@ -1,2 +1,18 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+
+<div style="background-image: url('<%= asset_path('image_banner.png') %>'); background-size: cover; height: 40vh; margin: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; background-position: center 70%;">
+  <div class="">
+    <h1>Mango, l’ingrédient manquant pour sublimer ton quotidien !</h1>
+  </div>
+</div>
+
+<div class="container">
+  <% Category.all.each do |category|  %>
+    <div class="card-group shadow row">
+      <div class="card m-3 col-6 rounded" style="height: 250px; background-size: cover; background-position: center; background-image: url('<%= category.photo %>')">
+        <div class="card-body" style="color: #ffffff; text-align: center; display: flex; flex-direction: column; justify-content: flex-end">
+          <a href="#" class="card-title btn btn-primary"><%= category.name %></a>
+        </div>
+      </div>
+    </div>
+  <% end  %>
+</div>
