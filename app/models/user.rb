@@ -1,11 +1,11 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  has_many :reviews, foreign_key: 'author_id'
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :bookings, foreign_key: 'author_id'
+  has_many :services
 
   enum :status, { visible: 0, invisible: 1 }, default: :visible
 
