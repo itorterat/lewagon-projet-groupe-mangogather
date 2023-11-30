@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :services
   has_many :categories, through: :services
   accepts_nested_attributes_for :services
+  has_one_attached :photo
 
   enum :status, { visible: 0, invisible: 1 }, default: :visible
 

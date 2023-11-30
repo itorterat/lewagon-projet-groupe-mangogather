@@ -1,9 +1,13 @@
+<% content_for :meta_title, "#{@user.first_name} est activé #{DEFAULT_META["meta_product_name"]}" %>
+<% content_for :meta_description, @user.description %>
+<%# <% content_for :meta_image, cl_image_path(@user.photo.path) %>
+
 <div class="container">
   <h1 class="text-center">Bienvenue <%= @user.first_name %></h1>
   <div class="row">
     <div class="card col m-3 shadow" style="width: 18rem;">
       <p class="badge bg-primary p-2 rounded" style="text-center;"><strong>Votre profil :</strong></p>
-      <img src="<%= asset_path('category_placeholder.png') %>" class="card-img-top rounded" alt="...">
+      <img src="<%= cl_image_tag @user.photo.key, height: 300, width: 400, crop: :fill %>" class="card-img-top rounded" alt="...">
       <div class="card-body">
         <p><strong>Description :</strong> <%= @user.description %></p>
         <p><strong>Statut :</strong> <%= @user.status %></p>
