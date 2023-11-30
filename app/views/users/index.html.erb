@@ -1,7 +1,33 @@
 <div class="container my-3">
   <%= render 'shared/search_form' %>
 
-  <% @users.each do |user| %>
-    <p><%= user.email %>, <%= user.city %>, <%= user.services.joins(:category).pluck('categories.name').uniq %></p>
-  <% end %>
+  <h2 class="mt-5">Utilisateurs correspondants :</h2>
+  <div class="cards-user mt-3">
+    <% if @users.empty? %>
+      <p>Aucun utilisateur ne correspond à ta recherche.</p>
+    <% end %>
+    <% @users.each do |user| %>
+      <%= link_to user_path(user), class: "card-user" do %>
+        <img src="<%= asset_path('category_placeholder.png') %>" />
+        <div class="card-user-infos">
+          <h2><%= user.first_name %> <%= user.last_name %></h2>
+          <p><%= user.city %></p>
+          <p>
+            <% categories = user.services.joins(:category).pluck('categories.name').sort %>
+            <% special_category = params[:category] if params[:category].present? %>
+            <% categories.delete(special_category) if special_category %>
+            <% categories.unshift(special_category) if special_category %>
+            <% categories.first(3).each do |category| %>
+              <% badge_class = category == special_category ? "text-bg-warning" : "text-bg-primary" %>
+              <%= content_tag(:span, category, class: "badge fw-medium #{badge_class}") %>
+            <% end %>
+            <% if (additional = categories.size - 3) > 0 %>
+              <% hidden_categories = categories.drop(3).join(', ') %>
+              <span class="badge fw-medium text-bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= hidden_categories %>">+ <%= additional %> autre<%= 's' if additional > 1 %> catégorie<%= 's' if additional > 1 %></span>
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 </div>
