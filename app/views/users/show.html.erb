@@ -1,7 +1,30 @@
-<h1>User Profil</h1>
+<div class="container">
+  <h1 class="text-center">Bienvenue <%= @user.first_name %></h1>
+  <div class="row">
+    <div class="card col m-3 shadow" style="width: 18rem;">
+      <p class="badge bg-primary p-2 rounded" style="text-center;"><strong>Votre profil :</strong></p>
+      <img src="<%= asset_path('category_placeholder.png') %>" class="card-img-top rounded" alt="...">
+      <div class="card-body">
+        <p><strong>Description :</strong> <%= @user.description %></p>
+        <p><strong>Statut :</strong> <%= @user.status %></p>
+        <p><strong>Ville :</strong> <%= @user.city %></p>
+        <p><strong>Vos catégories : </strong><%= @user.services.joins(:category).pluck('categories.name').sort.join(', ') %>
+        <a href="/users" class="btn btn-primary m-2">Retour à la liste des utilisateurs</a>
+      </div>
+    </div>
 
+    <div class="card col m-3 shadow">
+      <div class="card-body">
+        <%# <p><strong>Vos catégories :</strong> <%= @user.category.name %>
+        <p>Vos derniers reviews</p>
+      </div>
+    </div>
 
-<p><strong>Description :</strong> <%= @user.description %></p>
-<p><strong>Statut :</strong> <%= @user.status %></p>
-<p><strong>Ville :</strong> <%= @user.city %></p>
-<%= link_to 'Retour à la liste des utilisateurs', users_path %>
+    <div class="card col m-3 shadow">
+      <div class="card-body">
+        <p>Vos dernieres demandes</p>
+        <p>Vos dernieres offres</p>
+      </div>
+    </div>
+  </div>
+</div>
