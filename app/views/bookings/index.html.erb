@@ -1,0 +1,18 @@
+<div class="container my-3">
+  <h2>Vos Mang'Aides  <%= @user.name %></h2>
+
+  <% if @user.bookings.any? %>
+    <ul>
+      <% @user.bookings.each do |booking| %>
+        <li>
+          Date: <%= booking.date %>, 
+          Difficulty: <%= booking.difficulty %>, 
+          Status: <%= booking.status %>, 
+          Price: <%= booking.price %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Vous avez pas de Mang'Aides <%= @user.name %>.</p>
+  <% end %>
+</div>

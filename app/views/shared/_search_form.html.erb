@@ -3,3 +3,5 @@
   <%= f.input :category, required: false, label: 'Catégorie', collection: Category.all.map(&:name), include_blank: 'Bricolage, Informatique, ...', input_html: { name: 'category' } %>
   <%= f.button :submit, 'Chercher' %>
 <% end %>
+
+<%= link_to "New Booking", new_booking_path(@user), class: "btn btn-primary" %>

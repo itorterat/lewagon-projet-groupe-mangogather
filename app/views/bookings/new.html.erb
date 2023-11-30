@@ -1,0 +1,18 @@
+<div class="container my-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= simple_form_for @booking do |f| %>
+        <%= f.input :date,
+                as: :string,
+                input_html: { data: { controller: "datepicker" } } %>
+        <%= f.input :difficulty, collection: Booking.difficulties.keys %>
+        <%= f.input :status, collection: Booking.statuses.keys %>
+        <%= f.input :price %>
+        <%= f.button :submit %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Retour à la liste des utilisateurs', users_path %>
+
