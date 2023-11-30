@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :bookings, foreign_key: 'author_id'
   has_many :services
+  has_one_attached :photo
 
   enum :status, { visible: 0, invisible: 1 }, default: :visible
 

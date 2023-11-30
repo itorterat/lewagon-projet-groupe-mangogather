@@ -3,7 +3,7 @@
   <div class="row">
     <div class="card col m-3 shadow" style="width: 18rem;">
       <p class="badge bg-primary p-2 rounded" style="text-center;"><strong>Votre profil :</strong></p>
-      <img src="<%= asset_path('category_placeholder.png') %>" class="card-img-top rounded" alt="...">
+      <img src="<%= cl_image_tag @user.photo.key, height: 300, width: 400, crop: :fill %>" class="card-img-top rounded" alt="...">
       <div class="card-body">
         <p><strong>Description :</strong> <%= @user.description %></p>
         <p><strong>Statut :</strong> <%= @user.status %></p>
