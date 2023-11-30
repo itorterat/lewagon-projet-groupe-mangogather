@@ -1,0 +1,26 @@
+<div class="container my-3">
+  <%= simple_form_for @user, url: update_profile_path, method: :patch do |f| %>
+    <h2 class="mt-5">Mes informations</h2>
+    <%= f.input :first_name, label: 'Prénom' %>
+    <%= f.input :last_name, label: 'Nom de famille' %>
+    <%= f.input :city, label: 'Ville' %>
+    <%= f.input :description, label: 'Description' %>
+
+    <h2 class="mt-5">Mes services</h2>
+
+    <% @categories.each do |category| %>
+      <div class="form-check">
+        <%= f.check_box :category_ids, {
+          multiple: true,
+          id: "categories_#{category.id}",
+          class: 'form-check-input'
+        }, category.id, nil %>
+        <%= f.label :category_ids, category.name,
+          for: "categories_#{category.id}",
+          class: 'form-check-label' %>
+      </div>
+    <% end %>
+
+    <%= f.submit "Mettre à jour le profil", class: 'btn btn-primary mt-5' %>
+  <% end %>
+</div>
