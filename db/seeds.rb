@@ -3,17 +3,6 @@ Service.destroy_all
 Category.destroy_all
 User.destroy_all
 
-users_data = [
-  { first_name: 'John', last_name: 'Smith', balance: 100, description: 'professionnel', city: 'Paris', email: 'john@smith.com', password: '123456' },
-  { first_name: 'Jane', last_name: 'Doe', balance: 200, description: 'talentueux', city: 'Evry', email: 'jane@doe.com', password: '123456' },
-  { first_name: 'Bob', last_name: 'Dylan', balance: 400, description: 'professionnel', city: 'Nantes', email: 'bob@dylan.com', password: '123456' },
-  { first_name: 'Lois', last_name: 'Sanders', balance: 150, description: 'talentueux', city: 'Lyon', email: 'lois@sanders.com', password: '123456' },
-  { first_name: 'Pierre', last_name: 'Cardoe', balance: 300, description: 'professionnel', city: 'Lille', email: 'pierre@cardoe.com', password: '123456' },
-  { first_name: 'Pearce', last_name: 'Lover', balance: 250, description: 'talentueux', city: 'Toulouse', email: 'pearce@lover.com', password: '123456' }
-]
-
-users = users_data.map { |user_data| User.create!(user_data) }
-
 categories_data = [
                     { name: 'Mécanique', price: 100 },
                     { name: 'Informatique', price: 140 },
@@ -27,12 +16,64 @@ categories_data = [
 
 categories = categories_data.map { |category_data| Category.create!(category_data) }
 
-users.each do |user|
-  selected_categories = categories.sample(rand(1..4))
-  selected_categories.each do |category|
-    Service.create!(
-      user: user,
-      category: category
-    )
-  end
+first_names = [
+  "Rym", "Yaya", "Lilian", "Irvin",
+  "John", "Jane", "Bob", "Alice", "Marc", "Laura", "Maxime", "Sophie", "Pierre",
+  "Marie", "Antoine", "Clara", "Julien", "Charlotte", "Thomas", "Camille",
+  "Lucas", "Émilie", "Louis", "Anaïs", "Arthur", "Léa", "Jules", "Juliette",
+  "Gabriel", "Zoé", "Raphaël", "Lola", "Alexandre", "Inès", "Paul", "Manon",
+  "Hugo", "Sarah", "Mathis", "Elisa", "Enzo", "Chloé", "Théo", "Eva",
+  "Patrick", "Cécile", "Nicolas", "Léna", "Guillaume", "Adrien"
+]
+
+last_names = [
+  "Badji", "Niang", "Annette", "Torterat",
+  "Smith", "Doe", "Brown", "White", "Martin", "Davis", "Leroy", "Moreau", "Petit",
+  "Durand", "Lefebvre", "Garcia", "Dupont", "Simon", "Michel", "Bernard",
+  "Roux", "Vincent", "Fournier", "Morel", "Girard", "Andre", "Lefevre", "Mercier",
+  "Dupuis", "Lambert", "Bonnet", "Francois", "Martinez", "Legrand", "Garnier",
+  "Faure", "Rousseau", "Blanc", "Guerin", "Muller", "Henry", "Roussel", "Nicolas",
+  "Perrin", "Morin", "Mathieu", "Clement", "Gauthier", "Dumont", "Lopez"
+]
+
+cities = [
+  "Paris", "Versailles", "Nanterre", "Suresnes", "Meudon",
+  "Evry", "Orly", "Lyon", "Marseille", "Toulouse",
+  "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux",
+  "Lille", "Rennes", "Reims", "Dijon", "Toulon"
+]
+
+descriptions = ["professionnel", "talentueux"]
+
+users = []
+
+puts "Creating users..."
+first_names.each_with_index do |first_name, index|
+  print "U#{index + 1} / "
+  fn = first_name
+  ln = last_names[index]
+  full_email = "#{fn.downcase}@#{ln.downcase}.com"
+
+  user_data = {
+    first_name: fn,
+    last_name: ln,
+    balance: rand(800..1500),
+    description: descriptions.sample,
+    city: cities.sample,
+    email: full_email,
+    password: "123456"
+  }
+  users << User.create!(user_data)
 end
+puts "Finished creating users!\n"
+
+puts "\nCreating services..."
+users.each do |user|
+  print "U#{user.id} - "
+  selected_categories = categories.sample(rand(0..5))
+  selected_categories.each do |category|
+    Service.create!(user: user, category: category)
+  end
+  print "S#{selected_categories.count} / "
+end
+puts "Finished creating services!\n"
