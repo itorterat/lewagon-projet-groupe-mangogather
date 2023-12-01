@@ -10,12 +10,12 @@
       <%= image_tag avatar, class: "avatar-large" %>
       <div class="d-flex flex-column flex-grow-1">
         <div class="notification-content">
-          <p><small><%= booking.created_at.strftime("%d/%m/%Y - %H:%M") %></small></p>
+          <p><small><%= booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
           <p><strong><%= author.first_name.capitalize %> <%= author.last_name.upcase %></strong></p>
           <p>
             Souhaite réserver un service
             <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
-            de difficulté
+            (difficulté
             <% case booking.difficulty %>
             <% when 'easy' %>
               <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
@@ -24,6 +24,7 @@
             <% when 'hard' %>
               <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
             <% end %>
+            ), le <strong><%= booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>,
             pour un gain de <%= booking.price %>🥭 !
           </p>
         </div>
@@ -51,7 +52,7 @@
       <% user = authored_booking.service.user %>
       <div class="d-flex flex-column flex-grow-1">
         <div class="notification-content">
-          <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y - %H:%M") %></small></p>
+          <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
           <p>
             Demande de réservation auprès de
             <strong><%= user.first_name.capitalize %> <%= user.last_name.upcase %></strong>
@@ -66,7 +67,7 @@
             <% when 'hard' %>
               <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
             <% end %>
-            ), le <strong><%= authored_booking.date.strftime("%d/%m/%Y - %H:%M") %></strong> à <strong><%= user.city %> </strong>
+            ), le <strong><%= authored_booking.date.strftime("%d/%m/%Y à %H:%M") %></strong> à <strong><%= user.city %> </strong>
             pour un coût de <%= authored_booking.price %>🥭 !
           </p>
         </div>
