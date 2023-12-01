@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#edit_profile', as: :edit_profile
   patch 'profile', to: 'users#update_profile', as: :update_profile
 
-  resources :bookings, only: %i[index show]
+  resources :bookings, only: %i[index show] do
+    member do
+      patch :accept
+      patch :decline
+    end
+  end
 
   get 'search', to: 'pages#search'
   get 'dashboard', to: 'pages#dashboard'

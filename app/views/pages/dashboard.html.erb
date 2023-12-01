@@ -28,8 +28,15 @@
           </p>
         </div>
         <div class="notification-actions d-flex gap-3 justify-content-center my-3">
-          <%= button_to 'Accepter', "#", method: :patch, class: 'btn btn-outline-success px-5' %>
-          <%= button_to 'Refuser', "#", method: :patch, class: 'btn btn-outline-danger px-5' %>
+          <% case %>
+            <% when booking.pending? %>
+              <%= button_to 'Accepter', accept_booking_path(booking), method: :patch, class: 'btn btn-outline-success px-5' %>
+              <%= button_to 'Refuser', decline_booking_path(booking), method: :patch, class: 'btn btn-outline-danger px-5' %>
+            <% when booking.approved? %>
+              <button class='btn btn-success disabled'>Acceptée</button>
+            <% when booking.declined? %>
+              <button class='btn btn-danger disabled'>Refusée</button>
+          <% end %>
         </div>
       </div>
     </div>
