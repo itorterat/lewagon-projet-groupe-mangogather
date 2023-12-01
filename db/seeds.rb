@@ -1,3 +1,4 @@
+require "open-uri"
 Booking.destroy_all
 Service.destroy_all
 Category.destroy_all
@@ -63,14 +64,18 @@ first_names.each_with_index do |first_name, index|
     email: full_email,
     password: "123456"
   }
-  users << User.create!(user_data)
+  u = User.new(user_data)
+  if rand(1..4) > 1
+    u.photo.attach(io: URI.open(Faker::Avatar.image), filename: 'photo.jpg', content_type: 'image/jpeg')
+  end
+  users << u.save!
 end
 puts "Finished creating users!\n"
 
 puts "\nCreating services..."
-users.each do |user|
+User.all.each do |user|
   print "U#{user.id} - "
-  selected_categories = categories.sample(rand(0..5))
+  selected_categories = Categories.all.sample(rand(0..5))
   selected_categories.each do |category|
     Service.create!(user: user, category: category)
   end
