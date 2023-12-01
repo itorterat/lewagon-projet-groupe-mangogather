@@ -15,7 +15,20 @@ categories_data = [
                     { name: 'Transport', price: 130 }
                   ]
 
+puts "\nCreating categories..."
 categories = categories_data.map { |category_data| Category.create!(category_data) }
+puts "Finished creating categories!\n"
+
+puts "\nAdding images to categories..."
+Category.find_by(name: 'Mécanique').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'mecanique.jpg')), filename: 'mecanique.jpg')
+Category.find_by(name: 'Informatique').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'informatique.jpg')), filename: 'informatique.jpg')
+Category.find_by(name: 'Bricolage').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'bricolage.jpg')), filename: 'bricolage.jpg')
+Category.find_by(name: 'Jardinage').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'jardinage.jpg')), filename: 'jardinage.jpg')
+Category.find_by(name: 'Ménage').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'menage.jpg')), filename: 'menage.jpg')
+Category.find_by(name: 'Sport').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'sport.jpg')), filename: 'sport.jpg')
+Category.find_by(name: 'Cuisine').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'cuisine.jpg')), filename: 'cuisine.jpg')
+Category.find_by(name: 'Transport').photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'transport.jpg')), filename: 'transport.jpg')
+puts "Finished adding images to categories!\n"
 
 first_names = [
   "Rym", "Yaya", "Lilian", "Irvin",

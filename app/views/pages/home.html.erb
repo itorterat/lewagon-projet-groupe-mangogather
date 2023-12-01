@@ -9,11 +9,18 @@
   <h2 class="mt-5">Catégories disponibles</h2>
   <div class="cards mt-3">
     <% Category.all.each do |category| %>
-      <div class="card" style="background-image: url('<%= asset_path('category_placeholder.png') %>')">
+      <% img = (category.photo.attached? ? url_for(category.photo) : asset_path('category_placeholder.png')) %>
+      <div class="card" style="background-image: url('<%= img %>')">
         <div class="card-body">
           <a href="/users?category=<%= category.name %>" class="card-title btn btn-primary"><%= category.name %></a>
         </div>
       </div>
     <% end %>
+    <% img = asset_path('category_placeholder.png') %>
+      <div class="card" style="background-image: url('<%= img %>')">
+        <div class="card-body">
+          <a href="/users" class="card-title btn btn-primary">Tous les utilisateurs</a>
+        </div>
+      </div>
   </div>
 </div>
