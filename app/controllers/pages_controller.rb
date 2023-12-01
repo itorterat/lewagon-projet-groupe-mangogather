@@ -14,10 +14,6 @@ class PagesController < ApplicationController
       category = Category.find_by(name: params[:category])
       @users = @users.joins(:services).where(services: { category_id: category.id }) if category
     end
-
-    @users = @users.where(city: params[:city]) if params[:city].present?
-    @users = @users.distinct
-
-    redirect_to users_path(city: params[:city], category: params[:category])
+    redirect_to users_path(city: params[:city].capitalize, category: params[:category])
   end
 end

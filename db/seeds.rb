@@ -75,7 +75,7 @@ puts "Finished creating users!\n"
 puts "\nCreating services..."
 User.all.each do |user|
   print "U#{user.id} - "
-  selected_categories = Categories.all.sample(rand(0..5))
+  selected_categories = Category.all.sample(rand(0..5))
   selected_categories.each do |category|
     Service.create!(user: user, category: category)
   end
