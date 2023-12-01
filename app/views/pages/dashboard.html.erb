@@ -1,6 +1,69 @@
-<h1>Hi IM YOUR DASHBOARD</h1>
+<div class="container my-3">
+  <h2 class="mt-5">Demandes de réservations reçues pour mes services</h2>
+  <% if @bookings.empty? %>
+    <p>Aucune demande de réservation reçue pour le moment.</p>
+  <% end%>
+  <% @bookings.each do |booking| %>
+    <div class="notification my-3">
+      <% author = booking.author %>
+      <% avatar = (author.photo.attached? ? author.photo : "category_placeholder.png") %>
+      <%= image_tag avatar, class: "avatar-large" %>
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="notification-content">
+          <p><small><%= booking.created_at.strftime("%d/%m/%Y - %H:%M") %></small></p>
+          <p><strong><%= author.first_name.capitalize %> <%= author.last_name.upcase %></strong></p>
+          <p>
+            Souhaite réserver un service
+            <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+            de difficulté
+            <% case booking.difficulty %>
+            <% when 'easy' %>
+              <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
+            <% when 'normal' %>
+              <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
+            <% when 'hard' %>
+              <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
+            <% end %>
+            pour un gain de <%= booking.price %>🥭 !
+          </p>
+        </div>
+        <div class="notification-actions d-flex gap-3 justify-content-center my-3">
+          <%= button_to 'Accepter', "#", method: :patch, class: 'btn btn-outline-success px-5' %>
+          <%= button_to 'Refuser', "#", method: :patch, class: 'btn btn-outline-danger px-5' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
-<% @bookings.each do |booking| %>
-----------------------
-----------------------
-<% end %>
+  <h2 class="mt-5">Mes demandes de réservation effectuées</h2>
+  <% if @authored_bookings.empty? %>
+    <p>Aucune demande de réservation effectuée pour le moment.</p>
+  <% end%>
+  <% @authored_bookings.each do |authored_booking| %>
+    <div class="notification my-3">
+      <% user = authored_booking.service.user %>
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="notification-content">
+          <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y - %H:%M") %></small></p>
+          <p>
+            Demande de réservation auprès de
+            <strong><%= user.first_name.capitalize %> <%= user.last_name.upcase %></strong>
+            pour un service
+            <%= content_tag(:span, authored_booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+            (difficulté
+            <% case authored_booking.difficulty %>
+            <% when 'easy' %>
+              <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
+            <% when 'normal' %>
+              <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
+            <% when 'hard' %>
+              <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
+            <% end %>
+            ), le <strong><%= authored_booking.date.strftime("%d/%m/%Y - %H:%M") %></strong> à <strong><%= user.city %> </strong>
+            pour un coût de <%= authored_booking.price %>🥭 !
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

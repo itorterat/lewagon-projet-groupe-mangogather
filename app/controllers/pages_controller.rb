@@ -4,7 +4,8 @@ class PagesController < ApplicationController
   def home; end
 
   def dashboard
-    @bookings = current_user.bookings
+    @authored_bookings = current_user.bookings.order(created_at: :desc)
+    @bookings = Booking.where(service: current_user.services).order(created_at: :desc)
   end
 
   def search
