@@ -1,18 +1,16 @@
 <div class="container my-3">
+  <%= link_to "Revenir sur le profil", user_path(@user) || users_path, class: "btn btn-outline-primary mt-5" %>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <%= simple_form_for @booking do |f| %>
+      <%= simple_form_for([@user, @booking]) do |f| %>
+        <%= f.input :service_id, collection: @user.services.map { |service| [service.category.name, service.id] } %>
         <%= f.input :date,
                 as: :string,
                 input_html: { data: { controller: "datepicker" } } %>
-        <%= f.input :difficulty, collection: Booking.difficulties.keys %>
-        <%= f.input :status, collection: Booking.statuses.keys %>
-        <%= f.input :price %>
-        <%= f.button :submit %>
+        <%= f.input :difficulty, label: "Difficulté", collection: [['Facile', 'easy'], ['Moyen', 'normal'], ['Difficile', 'hard']], selected: 'normal' %>
+        <%= f.input :price, label: "Prix" %>
+        <%= f.button :submit, "Réserver ce service", class: "btn btn-primary w-100" %>
       <% end %>
     </div>
   </div>
 </div>
-
-<%= link_to 'Retour à la liste des utilisateurs', users_path %>
-

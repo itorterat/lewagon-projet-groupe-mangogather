@@ -1,33 +1,25 @@
-<% content_for :meta_title, "#{@user.first_name} est activé #{DEFAULT_META["meta_product_name"]}" %>
-<% content_for :meta_description, @user.description %>
-<%# <% content_for :meta_image, cl_image_path(@user.photo.path) %>
+<div class="container my-3">
+  <%= link_to "Retour à la liste des utilisateurs", request.referrer || users_path, class: "btn btn-outline-primary mt-5" %>
+  <div class="d-flex my-3">
+    <div class="align-items-center card col-4 d-flex flex-column my-3 shadow">
+      <h2 class="my-3"><%= @user.first_name.capitalize %> <%= @user.last_name.upcase %></h2>
+      <% avatar = (current_user.photo.attached? ? current_user.photo : "category_placeholder.png") %>
+      <%= image_tag avatar, class: "border border-2 border-primary rounded-circle w-50" %>
 
-<div class="container">
-  <h1 class="text-center">Bienvenue <%= @user.first_name %></h1>
-  <div class="row">
-    <div class="card col m-3 shadow" style="width: 18rem;">
-      <p class="badge bg-primary p-2 rounded" style="text-center;"><strong>Votre profil :</strong></p>
-      <img src="<%= cl_image_tag @user.photo.key, height: 300, width: 400, crop: :fill %>" class="card-img-top rounded" alt="...">
-      <div class="card-body">
-        <p><strong>Description :</strong> <%= @user.description %></p>
-        <p><strong>Statut :</strong> <%= @user.status %></p>
-        <p><strong>Ville :</strong> <%= @user.city %></p>
-        <p><strong>Vos catégories : </strong><%= @user.services.joins(:category).pluck('categories.name').sort.join(', ') %>
-        <a href="/users" class="btn btn-primary m-2">Retour à la liste des utilisateurs</a>
+      <div class="align-items-center card-body d-flex flex-column text-center">
+          <p><i class="fa-solid fa-quote-left"></i> <%= @user.description %> <i class="fa-solid fa-quote-right"></i></p>
+          <p><i class="fa-solid fa-location-dot"></i> <%= @user.city %></p>
+          <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
+          <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
       </div>
     </div>
 
     <div class="card col m-3 shadow">
-      <div class="card-body">
-        <%# <p><strong>Vos catégories :</strong> <%= @user.category.name %>
-        <p>Vos derniers reviews</p>
-      </div>
-    </div>
-
-    <div class="card col m-3 shadow">
-      <div class="card-body">
-        <p>Vos dernieres demandes</p>
-        <p>Vos dernieres offres</p>
+      <div class="card-body text-center">
+        <h2>Avis sur l'utilisateur</h2>
+        <% if Booking.joins(:service).where(services: { user: @user }).joins(:reviews).empty? %>
+          <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
+        <% end %>
       </div>
     </div>
   </div>
