@@ -7,7 +7,9 @@ class UsersController < ApplicationController
     @markers = @users.geocoded.map do |user|
       {
         lat: user.latitude,
-        lng: user.longitude
+        lng: user.longitude,
+        info_window: render_to_string(partial: "info_window", locals: { user: user }),
+        marker_html: render_to_string(partial: "marker")
       }
     end
     @users = @users.where(city: params[:city]) if params[:city].present?
