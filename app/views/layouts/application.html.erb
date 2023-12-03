@@ -3,8 +3,9 @@
   <head>
     <title>Mangogather, l’ingrédient manquant pour sublimer ton quotidien !</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -19,5 +20,6 @@
     </div>
       <%= render "shared/footer" %>
   </body>
-  <script src="https://unpkg.com/flatpickr@4.6.9/dist/plugins/scrollPlugin.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/flatpickr@4.6.9/dist/plugins/scrollPlugin.js"></script>
 </html>
