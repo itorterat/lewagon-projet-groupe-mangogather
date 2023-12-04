@@ -5,10 +5,10 @@
     <ul>
       <% @user.bookings.each do |booking| %>
         <li>
-          Date: <%= booking.date %>, 
-          Difficulty: <%= booking.difficulty %>, 
-          Status: <%= booking.status %>, 
-          Price: <%= booking.price %>
+          Date: <%= booking.date %>,
+          Difficulty: <%= booking.difficulty %>,
+          Status: <%= booking.status %>,
+          price: <%= booking.price %>
         </li>
       <% end %>
     </ul>

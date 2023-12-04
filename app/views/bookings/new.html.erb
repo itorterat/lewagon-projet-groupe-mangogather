@@ -1,14 +1,28 @@
 <div class="container my-3">
   <%= link_to "Revenir sur le profil", user_path(@user) || users_path, class: "btn btn-outline-primary mt-5" %>
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div data-controller="booking-price" data-booking-price-value="<%= @user.services %>" data-action="change->booking-price#calcul" class="col-md-6">
       <%= simple_form_for([@user, @booking]) do |f| %>
-        <%= f.input :service_id, collection: @user.services.map { |service| [service.category.name, service.id] } %>
+      <%= f.input :service_id,
+            input_html: { data: { booking_price_target: "formCategory", action: "change->booking-price#calcul" } },
+            collection: @user.services.map { |service| [service.category.name, service.id, { 'data-price': service.category.price }] },
+            prompt: "Choisir un service" %>
         <%= f.input :date,
                 as: :string,
                 input_html: { data: { controller: "datepicker" } } %>
-        <%= f.input :difficulty, label: "Difficulté", collection: [['Facile', 'easy'], ['Moyen', 'normal'], ['Difficile', 'hard']], selected: 'normal' %>
-        <%= f.input :price, label: "Prix" %>
+        <%= f.input :difficulty, input_html: { data: { booking_price_target: "formDifficulty" } }, label: "Difficulté", collection: [['Facile (Coût de base x0.75)', 'easy'], ['Moyen (Coût de base x1)', 'normal'], ['Difficile (Coût de base x1.5)', 'hard']], selected: 'normal' %>
+        <%= f.input :tip, input_html: {data: { booking_price_target: "formTip" } }, label: "Pourboire"%>
+        <p>
+          Coût total :
+          <%# (<span data-booking-price-target="category">0</span>
+          x
+          <span data-booking-price-target="difficulty">1</span>)
+          +
+          <span data-booking-price-target="tip">0</span>
+          = %>
+          <span data-booking-price-target="result">0</span>
+          🥭
+        </p>
         <%= f.button :submit, "Réserver ce service", class: "btn btn-primary w-100" %>
       <% end %>
     </div>
