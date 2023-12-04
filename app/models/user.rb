@@ -15,4 +15,8 @@ class User < ApplicationRecord
 
   validates :status, inclusion: { in: statuses.keys }
   validates :balance, numericality: { greater_than_or_equal_to: 0 }
+  def city_coordinates
+    Geocoder.coordinates(self.city)
+  end
+
 end
