@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  geocoded_by :city
+  after_validation :geocode, if: :will_save_change_to_city?
   has_many :bookings, foreign_key: 'author_id'
   has_many :services
   has_many :categories, through: :services
