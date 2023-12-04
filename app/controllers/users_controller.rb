@@ -4,28 +4,43 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @markers = @users.geocoded.map do |user|
-      {
-        lat: user.latitude,
-        lng: user.longitude,
-        info_window: render_to_string(partial: "info_window", locals: { user: user }),
-        marker_html: render_to_string(partial: "marker")
-      }
-    end
-    @users = @users.where(city: params[:city]) if params[:city].present?
+    @users_count = {}
 
     if params[:category].present?
       category = Category.find_by(name: params[:category])
       @users = @users.joins(:services).where(services: { category_id: category.id }) if category
     end
 
+    if params[:city].present?
+      @users = @users.where(city: params[:city])
+    else
+      @users_count = @users.group_by { |user| user.city }.transform_values(&:count)
+      @users = @users.where(city: @users_count.keys)
+    end
+
+      @markers = @users.geocoded.map do |user|
+        {
+          lat: user.latitude,
+          lng: user.longitude,
+          info_window: render_to_string(partial: "info_window", locals: { user: user }),
+          marker_html: render_to_string(partial: "marker")
+        }
+      end
     @users = @users.distinct
   end
 
   def show
     @booking = Booking.new
     @user = User.find(params[:id])
+    @users_count = {}
+    @markers = [{
+      lat: @user.latitude,
+      lng: @user.longitude,
+      info_window: render_to_string(partial: "info_window", locals: { user: @user }),
+      marker_html: render_to_string(partial: "marker")
+    }]
   end
+
 
   def edit_profile
     @categories = Category.all.order(:name)
