@@ -17,6 +17,7 @@
           </div>
           <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
           <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
+          <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'  %>
       </div>
     </div>
     <div class="card col m-3 shadow">

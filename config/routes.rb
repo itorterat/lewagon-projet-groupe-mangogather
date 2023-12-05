@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :conversations, only: %i[create] do
+    resources :messages, only: %i[index new create]
+  end
+
   get 'search', to: 'pages#search'
   get 'dashboard', to: 'pages#dashboard'
 end
