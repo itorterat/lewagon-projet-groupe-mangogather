@@ -1,2 +1,5 @@
-<h2><%= user.first_name %></h2>
-<p><%= user.city %></p>
+<div class="info-window ">
+  <h3> <%= user.city %></h3>
+<p>Utilisateur<%= 's' if @users_count[user.city].to_i > 1 %> ici : <%= @users_count[user.city] %></p>
+</div>
+  

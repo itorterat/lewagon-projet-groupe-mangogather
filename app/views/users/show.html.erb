@@ -9,11 +9,17 @@
       <div class="align-items-center card-body d-flex flex-column text-center">
           <p><i class="fa-solid fa-quote-left"></i> <%= @user.description %> <i class="fa-solid fa-quote-right"></i></p>
           <p><i class="fa-solid fa-location-dot"></i> <%= @user.city %></p>
+          <div class= "map col-4 mb-5 rounded-5 border shadow overflow-hidden" >
+              <div style="width: 365px; height: 365px; "
+                data-controller="map"
+                data-map-markers-value="<%= @markers.to_json %>"
+                data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+          </div>
           <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
           <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
+          <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'  %>
       </div>
     </div>
-
     <div class="card col m-3 shadow">
       <div class="card-body text-center">
         <h2>Avis sur l'utilisateur</h2>
@@ -24,3 +30,5 @@
     </div>
   </div>
 </div>
+
+  
