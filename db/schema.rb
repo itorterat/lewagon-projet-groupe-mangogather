@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_04_142611) do
     t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tip", default: 0
     t.index ["author_id"], name: "index_bookings_on_author_id"
     t.index ["service_id"], name: "index_bookings_on_service_id"
   end
