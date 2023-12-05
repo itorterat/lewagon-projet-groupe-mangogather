@@ -1,7 +1,19 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[home search]
 
-  def home; end
+  def home
+    @users_count = User.all.group_by { |user| user.city }.transform_values(&:count)
+    @users = User.where(city: @users_count.keys)
+ 
+    @markers = @users.geocoded.map do |user|
+      {
+        lat: user.latitude,
+        lng: user.longitude,
+        info_window: render_to_string(partial: "info_window", locals: { user: user }),
+        marker_html: render_to_string(partial: "marker")
+      }
+    end
+  end
 
   def dashboard
     @authored_bookings = current_user.bookings.order(created_at: :desc)

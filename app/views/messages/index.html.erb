@@ -1,0 +1,17 @@
+<div class="container conversation"
+  data-controller="conversation-subscription"
+  data-conversation-subscription-conversation-id-value="<%= @conversation.id %>"
+>
+
+  <div data-conversation-subscription-target="messages" class="messages" style="overflow-y: scroll; height: 400px;">
+    <% @messages.each do |message| %>
+      <%= render "messages/message", message: message %>
+    <% end %>
+  </div>
+
+  <%= simple_form_for [@conversation, @message], html: { data: { action: "turbo:submit-end->conversation-subscription#resetForm" }, class: "d-flex" } do |f| %>
+    <%= f.input :content, label: false, as: :text %>
+    <%= f.button :submit, "Envoyer" %>
+  <% end %>
+
+</div>
