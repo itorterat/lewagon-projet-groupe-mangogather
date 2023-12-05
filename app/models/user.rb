@@ -26,4 +26,8 @@ class User < ApplicationRecord
   def messages
     Message.where(conversation: conversations)
   end
+  
+  def city_coordinates
+    Geocoder.coordinates(self.city)
+  end
 end
