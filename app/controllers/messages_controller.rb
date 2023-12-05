@@ -16,9 +16,15 @@ class MessagesController < ApplicationController
     @message.author_id = current_user.id
 
     if @message.save
-      redirect_to conversation_messages_path(@conversation)
+      ConversationChannel.broadcast_to(
+        @conversation,
+        ApplicationController.renderer.render(partial: "messages/message", locals: { message: @message })
+      )
+      head :ok
     else
-      render :new, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.replace('message_form',
+                                                partial: 'messages/form',
+                                                locals: { conversation: @conversation, message: @message })
     end
   end
 

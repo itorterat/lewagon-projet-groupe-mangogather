@@ -1,12 +1,17 @@
-<% @messages.each do |message| %>
-  <% if message.content %>
-    <% user = User.find(message.author_id) %>
-    <%= user.email %><%= message.created_at.strftime("%d/%m/%Y à %H:%M") %>
-    <%= message.content %>
+<div class="container conversation"
+  data-controller="conversation-subscription"
+  data-conversation-subscription-conversation-id-value="<%= @conversation.id %>"
+>
+
+  <div data-conversation-subscription-target="messages" class="messages" style="overflow-y: scroll; height: 400px;">
+    <% @messages.each do |message| %>
+      <%= render "messages/message", message: message %>
+    <% end %>
+  </div>
+
+  <%= simple_form_for [@conversation, @message], html: { data: { action: "turbo:submit-end->conversation-subscription#resetForm" }, class: "d-flex" } do |f| %>
+    <%= f.input :content, label: false, as: :text %>
+    <%= f.button :submit, "Envoyer" %>
   <% end %>
-<% end %>
-<%= form_for [@conversation, @message] do |f| %>
-  <%= f.text_area :content %>
-  <%= f.text_field :author_id, value: current_user.id, type: "hidden" %>
-  <%= f.submit "Send Reply" %>
-<% end %>
+
+</div>
