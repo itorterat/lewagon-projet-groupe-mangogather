@@ -1,13 +1,4 @@
 class BookingsController < ApplicationController
-  def index
-    @bookings = Booking.all
-    @user = current_user
-  end
-
-  def show
-    @booking = Booking.find(params[:id])
-  end
-
   def new
     @user = User.find(params[:user_id])
     @booking = Booking.new
@@ -23,7 +14,25 @@ class BookingsController < ApplicationController
     if @booking.save
       redirect_to user_path(@user), notice: 'Réservation créée avec succès.'
     else
-      render :new, notice: 'Erreur lors de la réservation !'
+      render :new, alert: 'Erreur lors de la réservation !'
+    end
+  end
+
+  def accept
+    @booking = Booking.find(params[:id])
+    if @booking.update(status: :approved)
+      redirect_to dashboard_path, notice: 'La réservation a été acceptée.'
+    else
+      redirect_to dashboard_path, alert: "Erreur lors de l'acceptation de la réservation."
+    end
+  end
+
+  def decline
+    @booking = Booking.find(params[:id])
+    if @booking.update(status: :declined)
+      redirect_to dashboard_path, notice: 'La réservation a été refusée.'
+    else
+      redirect_to dashboard_path, alert: "Erreur lors du refus de la réservation."
     end
   end
 

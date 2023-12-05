@@ -3,14 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["category", "difficulty", "tip", "result", "formCategory", "formDifficulty", "formTip"]
 
-  // connect() {
-  //   this.calcul() // Effectue un calcul initial au chargement
-  // }
-
   calcul() {
     const selectedServiceOption = this.formCategoryTarget.options[this.formCategoryTarget.selectedIndex];
     const categoryPrice = parseFloat(selectedServiceOption.getAttribute('data-price')) || 0;
-    // const categoryPrice = this.formCategoryTarget.value
     const difficulty = this.formDifficultyTarget.value
     const tip = parseFloat(this.formTipTarget.value) || 0
 
@@ -25,10 +20,11 @@ export default class extends Controller {
       case 'hard':
         difficultyCoefficient = 1.5;
         break;
-      // default:
-      //   difficultyCoefficient = 1; // Valeur par défaut
     }
     const totalCost = (categoryPrice * difficultyCoefficient) + tip
-    this.resultTarget.textContent = totalCost.toFixed(2)
+    this.categoryTarget.textContent = categoryPrice
+    this.difficultyTarget.textContent = difficultyCoefficient
+    this.tipTarget.textContent = tip
+    this.resultTarget.textContent = totalCost
   }
 }
