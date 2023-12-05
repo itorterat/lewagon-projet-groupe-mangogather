@@ -1,0 +1,53 @@
+.conversations {
+  border: 1px solid rgb(171, 171, 171);
+  border-radius: 5px;
+  background-color: white;
+
+  .conversation {
+    border-bottom: 1px solid rgb(171, 171, 171);
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    text-decoration: none;
+    align-items: center;
+    color: black;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      transition: all 0.3s ease-in-out;
+      background-color: $orange;
+      color: black;
+
+      p {
+        color: rgb(56, 56, 56);
+        flex-grow: 1;
+      }
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      width: 20%;
+
+      .name {
+        margin-left: 20px;
+        margin-bottom: 0px;
+      }
+    }
+
+    p {
+      margin-bottom: 0px;
+      font-style: italic;
+      color: grey;
+      flex-grow: 1;
+    }
+
+    small {
+      width: 20%;
+      text-align: right;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<div class="container my-3">
+  <h2 class="mt-5 mb-3">Mes conversations</h2>
+  <div class="conversations">
+    <% @conversations.each do |conversation| %>
+      <%= link_to conversation_messages_path(conversation), class: "conversation" do %>
+        <div class="user">
+          <% other_user = (conversation.recipient_id == current_user.id ? conversation.sender : conversation.recipient) %>
+          <% avatar = (other_user.photo.attached? ? other_user.photo : "category_placeholder.png") %>
+          <%= image_tag avatar, class: "avatar-mini" %>
+          <h5 class="name"><%= other_user.first_name.capitalize %> <%= other_user.last_name.upcase %></h5>
+        </div>
+        <p>
+          <%= 'Vous : ' if conversation.messages.last.author == current_user %>
+          <%= truncate(conversation.messages.last.content, length: 80) %>
+        </p>
+        <small><%= conversation.messages.last.created_at.strftime("%d/%m/%Y à %H:%M") %></small>
+      <% end %>
+    <% end %>
+  </div>
+</div>
