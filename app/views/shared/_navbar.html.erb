@@ -9,15 +9,18 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+      <ul class="align-item-center navbar-nav me-auto">
         <% if user_signed_in? %>
-          <li class="nav-item active">
+          <li class="nav-item btn btn-primary">
             <%= link_to "Accueil", root_path, class: "nav-link text-white" %>
           </li>
-          <li class="nav-item">
+          <li class="nav-item btn btn-primary">
             <%= link_to "Mes Mangu'Aides", dashboard_path, class: "nav-link text-white" %>
           </li>
-          <li class="nav-item">
+          <li class="nav-item btn btn-primary">
+            <%= link_to "Mes Messages", conversations_path, class: "nav-link text-white" %>
+          </li>
+          <li class="nav-item btn pe-none">
             <div class="nav-link text-white">Solde: <%= current_user.balance %>🥭</div>
           </li>
           <li class="nav-item dropdown">
@@ -31,8 +34,8 @@
           </li>
         <% else %>
           <li class="nav-item d-flex">
-            <%= link_to "Se connecter", new_user_session_path, class: "nav-link text-white" %>
-            <%= link_to "S'enregistrer", new_user_registration_path, class: "nav-link text-white" %>
+            <%= link_to "S'enregistrer", new_user_registration_path, class: "nav-link text-white btn btn-primary" %>
+            <%= link_to "Se connecter", new_user_session_path, class: "nav-link text-white btn btn-primary" %>
           </li>
         <% end %>
       </ul>

@@ -13,12 +13,14 @@ class MessagesController < ApplicationController
 
   def create
     @message = @conversation.messages.new(message_params)
+    user_ids = [@conversation.sender_id, @conversation.recipient_id]
     @message.author_id = current_user.id
+    @message.receiver_id = user_ids.reject { |id| id == current_user.id }.first
 
     if @message.save
       ConversationChannel.broadcast_to(
         @conversation,
-        ApplicationController.renderer.render(partial: "messages/message", locals: { message: @message })
+        render_to_string(partial: "messages/message", locals: { message: @message })
       )
       head :ok
     else

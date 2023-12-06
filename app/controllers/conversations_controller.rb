@@ -1,4 +1,14 @@
 class ConversationsController < ApplicationController
+  def index
+    @conversations = Conversation.joins(:messages)
+                                 .where('sender_id = ? OR recipient_id = ?', current_user.id, current_user.id)
+                                 .distinct
+                                 .includes(:messages)
+                                 .sort_by { |conversation| conversation.messages.last.created_at }
+                                 .reverse
+  end
+
+
   def create
     @conversation = Conversation.find_by(conversation_params)
     if @conversation.nil?

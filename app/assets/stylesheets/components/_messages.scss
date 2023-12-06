@@ -1,0 +1,24 @@
+.message-sent {
+  text-align: right;
+  background-color: $blue;
+  border-radius: 10px 0 10px 10px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  padding: 5px 10px;
+  max-width: 60%;
+  color : white;
+  img {
+    display: none;
+  }
+}
+
+.message-received {
+  text-align: left;
+  background-color: $orange;
+  border-radius: 0 10px 10px 10px;
+  margin-bottom: 5px;
+  margin-right: auto;
+  padding: 5px 10px;
+  max-width: 60%;
+  display: flex;
+}
