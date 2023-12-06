@@ -10,7 +10,8 @@ class BookingsController < ApplicationController
     @booking.author = current_user
     @booking.price = calculate_coefficient(@booking.difficulty) + tip
     @user = User.find(params[:user_id])
-
+    current_user.balance = current_user.balance - @booking.price
+    current_user.save!
     if @booking.save
       redirect_to user_path(@user), notice: 'Réservation créée avec succès.'
     else
