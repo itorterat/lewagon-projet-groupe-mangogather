@@ -1,0 +1,10 @@
+<div class= "container justify-text-center">
+<%= simple_form_for @review, url: user_booking_reviews_path, method: :post, html: { class: 'form-horizontal' } do |form| %>
+
+  <%= form.input :rating, label: 'Note', input_html: { class: 'form-control', required: true } %>
+
+  <%= form.input :comment, label: 'Commentaire', as: :text, input_html: { class: 'form-control', required: true } %>
+
+  <%= form.button :submit, 'Créer commentaire', class: 'btn btn-primary mt-3' %>
+<% end %>
+</div>
