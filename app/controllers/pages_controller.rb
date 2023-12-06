@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   def home
     @users_count = User.all.group_by { |user| user.city }.transform_values(&:count)
     @users = User.where(city: @users_count.keys)
- 
+
     @markers = @users.geocoded.map do |user|
       {
         lat: user.latitude,
