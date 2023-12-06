@@ -7,12 +7,12 @@
             collection: [["Choisir un service", "", { disabled: true, selected: true }]] +
                         @user.services.map { |service| ["#{service.category.name} (Coût : #{service.category.price} 🥭)", service.id, { 'data-price': service.category.price }] },
             include_blank: false,
-            input_html: { data: { booking_price_target: "formCategory", action: "change->booking-price#calcul" }, required: true } %>
+            input_html: { data: { booking_price_target: "formCategory", action: "change->booking-price#calcul" }, required: true, class: 'bg-white' } %>
         <%= f.input :date,
                 as: :string,
-                input_html: { data: { controller: "datepicker" }, required: true } %>
-        <%= f.input :difficulty, input_html: { data: { booking_price_target: "formDifficulty" }, required: true }, label: "Difficulté", collection: [['Facile (Coût de base x0.75)', 'easy'], ['Moyen (Coût de base x1)', 'normal'], ['Difficile (Coût de base x1.5)', 'hard']], selected: 'normal' %>
-        <%= f.input :tip, input_html: {data: { booking_price_target: "formTip", action: "keyup->booking-price#calcul" } }, label: "Pourboire"%>
+                input_html: { data: { controller: "datepicker" }, required: true, class: 'bg-white'} %>
+        <%= f.input :difficulty, input_html: { data: { booking_price_target: "formDifficulty" }, required: true, class: 'bg-white' }, label: "Difficulté", collection: [['Facile (Coût de base x0.75)', 'easy'], ['Moyen (Coût de base x1)', 'normal'], ['Difficile (Coût de base x1.5)', 'hard']], selected: 'normal' %>
+        <%= f.input :tip, input_html: {data: { booking_price_target: "formTip", action: "keyup->booking-price#calcul", class: 'bg-white' } }, label: "Pourboire"%>
         <p>
           Coût total :
           (<span data-booking-price-target="category">0</span>
