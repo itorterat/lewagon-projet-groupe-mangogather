@@ -9,7 +9,7 @@
       <% @messages.each do |message| %>
         <% if message.content.present? %>
           <div id="message-<%= message.id %>" class="<%= message.author == current_user ? 'message-sent' : 'message-received' %>">
-            <% avatar = (message.author.photo.attached? ? message.author.photo : "category_placeholder.png") %>
+            <% avatar = (message.author.photo.attached? ? message.author.photo : "random_user.png") %>
             <%= image_tag avatar, class: "avatar-mini" %>
             <div class="ms-2">
               <small>

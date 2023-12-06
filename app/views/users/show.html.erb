@@ -3,7 +3,7 @@
   <div class="d-flex my-3">
     <div class="align-items-center card col-4 d-flex flex-column my-3 shadow">
       <h2 class="my-3"><%= @user.first_name.capitalize %> <%= @user.last_name.upcase %></h2>
-      <% avatar = (@user.photo.attached? ? @user.photo : "category_placeholder.png") %>
+      <% avatar = (@user.photo.attached? ? @user.photo : "random_user.png") %>
       <%= image_tag avatar, class: "border border-2 border-primary rounded-circle w-50" %>
 
       <div class="align-items-center card-body d-flex flex-column text-center w-75">

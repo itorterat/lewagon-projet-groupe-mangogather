@@ -8,7 +8,7 @@
         <%= link_to conversation_messages_path(conversation), class: "conversation" do %>
           <div class="user">
             <% other_user = (conversation.recipient_id == current_user.id ? conversation.sender : conversation.recipient) %>
-            <% avatar = (other_user.photo.attached? ? other_user.photo : "category_placeholder.png") %>
+            <% avatar = (other_user.photo.attached? ? other_user.photo : "random_user.png") %>
             <%= image_tag avatar, class: "avatar-mini" %>
             <h5 class="name"><%= other_user.first_name.capitalize %> <%= other_user.last_name.upcase %></h5>
           </div>
