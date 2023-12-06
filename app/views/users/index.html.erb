@@ -2,13 +2,13 @@
   <%= render 'shared/search_form' %>
 
   <h2 class="mt-5">Utilisateurs correspondants :</h2>
-  <div class="cards-user mt-3">
+  <div class="cards-user mt-3 mb-5">
     <% if @users.empty? %>
       <p>Aucun utilisateur ne correspond à ta recherche.</p>
     <% end %>
     <% @users.each do |user| %>
       <%= link_to user_path(user), class: "card-user" do %>
-        <% avatar = (user.photo.attached? ? user.photo : "category_placeholder.png") %>
+        <% avatar = (user.photo.attached? ? user.photo : "random_user.png") %>
         <%= image_tag avatar %>
         <div class="card-user-infos">
           <h2><%= user.first_name %> <%= user.last_name %></h2>
@@ -34,11 +34,14 @@
       <% end %>
     <% end %>
   </div>
-</div>
-<% if !params[:city].present? %>
-<div class= "map col-6 mx-auto my-4 rounded-5 border shadow overflow-hidden" >
-<div style="width: 100%; height: 600px; "
-  data-controller="map"
-  data-map-markers-value="<%= @markers.to_json %>"
-  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+  <% if !params[:city].present? %>
+    <h2 class="pt-3"><%= @users.count %> utilisateurs correspondants à votre recherche !</h2>
+    <div class= "map my-3 rounded-5 border shadow overflow-hidden">
+      <div style="width: 100%; height: 600px; "
+        data-controller="map"
+        data-map-markers-value="<%= @markers.to_json %>"
+        data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>" >
+      </div>
+    </div>
   <% end %>
+</div>
