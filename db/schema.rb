@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_04_142611) do
     t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tip", default: 0
     t.index ["author_id"], name: "index_bookings_on_author_id"
     t.index ["service_id"], name: "index_bookings_on_service_id"
   end
@@ -75,10 +76,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_04_142611) do
     t.string "content"
     t.bigint "conversation_id", null: false
     t.bigint "author_id", null: false
+    t.bigint "receiver_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["receiver_id"], name: "index_messages_on_receiver_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -129,6 +132,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_04_142611) do
   add_foreign_key "conversations", "users", column: "sender_id"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users", column: "author_id"
+  add_foreign_key "messages", "users", column: "receiver_id"
   add_foreign_key "reviews", "bookings"
   add_foreign_key "reviews", "users", column: "author_id"
   add_foreign_key "services", "categories"

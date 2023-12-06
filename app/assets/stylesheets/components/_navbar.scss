@@ -1,6 +1,15 @@
 .navbar-lewagon {
   justify-content: space-between;
   background: $blue;
+
+  .dropdown-toggle:hover {
+    cursor: pointer;
+  }
+
+  .dropdown-item:hover {
+    background-color: $blue;
+    color: white;
+  }
 }
 
 .navbar-lewagon .navbar-collapse {
