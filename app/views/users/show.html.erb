@@ -25,22 +25,34 @@
           <% end %>
 
       </div>
+</div>
+    <div class="card reviews col-8 my-3 shadow">
+  <h2 class="card text-center shadow">Avis sur l'utilisateur</h2>
+  <div class="card-body">
+    <% if @bookings.empty? %>
+      <p class="mt-5 text-left">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
+    <% else %>
+      <% @bookings.each do |booking| %>
+      <div class= "card reviews justfy-content mt-3">
+        <div class="media mt-3 shadow">
+          <% author = booking.reviews.first.author %>
+          <% avatar = (author.photo.attached? ? author.photo : "category_placeholder.png") %>
+
+          <img src="<%= url_for(avatar) %>" class="mr-3 rounded-circle" alt="Avatar" width="64" height="64">
+
+          <div class="media-body m-3">
+            <h5 class="mt-2"><%= author.first_name %> <%= author.last_name %></h5>
+            <p><strong>Note :</strong> <%= booking.reviews.first.rating %> </p>
+            <p><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
     </div>
-    <div class="card col m-3 shadow">
-      <div class="card-body text-align ">
-        <h2>Avis sur l'utilisateur</h2>
-        <% if @bookings.empty? %>
-          <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
-        <% else %>
-          <ul>
-            <% @bookings.each do |booking| %>
-              <li><strong>Note :</strong> <%= booking.reviews.first.rating %> </li>
-              <li><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></li>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
     </div>
   </div>
   </div>
 </div>
+
