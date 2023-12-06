@@ -8,7 +8,7 @@
     <% end %>
     <% @users.each do |user| %>
       <%= link_to user_path(user), class: "card-user" do %>
-        <% avatar = (user.photo.attached? ? user.photo : "category_placeholder.png") %>
+        <% avatar = (user.photo.attached? ? user.photo : "random_user.png") %>
         <%= image_tag avatar %>
         <div class="card-user-infos">
           <h2><%= user.first_name %> <%= user.last_name %></h2>

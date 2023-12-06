@@ -6,7 +6,7 @@
   <% @bookings.each do |booking| %>
     <div class="notification my-3">
       <% author = booking.author %>
-      <% avatar = (author.photo.attached? ? author.photo : "category_placeholder.png") %>
+      <% avatar = (author.photo.attached? ? author.photo : "random_user.png") %>
       <%= image_tag avatar, class: "avatar-large" %>
       <div class="d-flex flex-column flex-grow-1">
         <div class="notification-content">
