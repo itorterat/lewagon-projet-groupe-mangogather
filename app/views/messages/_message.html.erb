@@ -1,9 +1,13 @@
-<div id="message-<%= message.id %>">
-  <small>
-    <strong><%= message.author&.first_name %></strong>
-    <% if message.created_at %>
-      <i><%= message.created_at.strftime("%d/%m/%Y à %H:%M") %></i>
-    <% end %>
-  </small>
-  <p><%= message.content %></p>
+<%# NUL NUL NUL, CODÉ EN DUR%>
+<% cur_user = User.find_by(email: 'lilian@annette.com') %>
+<div id="message-<%= message.id %>" class="<%= message.author == cur_user ? 'message-sent' : 'message-received' %>">
+  <% avatar = (message.author.photo.attached? ? message.author.photo : "category_placeholder.png") %>
+  <%= image_tag avatar, class: "avatar-mini" %>
+  <div class="ms-2">
+    <small>
+      <strong><%= message.author.first_name %></strong>
+        <i><%= message.created_at.strftime("%d/%m/%Y à %H:%M") %></i>
+    </small>
+    <p><%= message.content %></p>
+  </div>
 </div>
