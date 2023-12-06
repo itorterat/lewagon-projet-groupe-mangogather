@@ -6,14 +6,14 @@
       <% avatar = (@user.photo.attached? ? @user.photo : "category_placeholder.png") %>
       <%= image_tag avatar, class: "border border-2 border-primary rounded-circle w-50" %>
 
-      <div class="align-items-center card-body d-flex flex-column text-center">
+      <div class="align-items-center card-body d-flex flex-column text-center w-75">
           <p><i class="fa-solid fa-quote-left"></i> <%= @user.description %> <i class="fa-solid fa-quote-right"></i></p>
           <p><i class="fa-solid fa-location-dot"></i> <%= @user.city %></p>
           <div class= "map col-4 mb-5 rounded-5 border shadow overflow-hidden" >
-              <div style="width: 365px; height: 365px; "
-                data-controller="map"
-                data-map-markers-value="<%= @markers.to_json %>"
-                data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
+            <div style="width: auto; height: 200px; "
+              data-controller="map"
+              data-map-markers-value="<%= @markers.to_json %>"
+              data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
           </div>
           <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
           <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
@@ -27,18 +27,18 @@
       </div>
     </div>
     <div class="card col m-3 shadow">
-     <div class="card-body text-align ">
-  <h2>Avis sur l'utilisateur</h2>
-  <% if @bookings.empty? %>
-    <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
-  <% else %>
-    <ul>
-      <% @bookings.each do |booking| %>
-        <li><strong>Note :</strong> <%= booking.reviews.first.rating %> </li>
-        <li><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></li>
-      <% end %>
-    </ul>
-  <% end %>
+      <div class="card-body text-align ">
+        <h2>Avis sur l'utilisateur</h2>
+        <% if @bookings.empty? %>
+          <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
+        <% else %>
+          <ul>
+            <% @bookings.each do |booking| %>
+              <li><strong>Note :</strong> <%= booking.reviews.first.rating %> </li>
+              <li><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
   </div>
