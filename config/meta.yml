@@ -1,9 +1,5 @@
-meta_product_name : « MangoGather »
-
-meta_title : « Mango, l’ingrédient manquant pour sublimer ton quotidien ! »
-
-meta_description : « MangoGather est une appli d'entre-aide entre utilisateur. »
-
-meta_image : "logo.png"
-
-# twitter_account: “@product_twitter_account”
+meta_product_name: "Mangogather"
+meta_title: "Mangogather, l'ingrédient manquant pour sublimer ton quotidien !"
+meta_description: "Mangogather est une appli d'entre-aide entre utilisateurs."
+meta_image : "full_logo.png"
+twitter_account: "@product_twitter_account"
