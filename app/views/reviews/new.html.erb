@@ -1,10 +1,26 @@
-<div class= "container justify-text-center">
-<%= simple_form_for @review, url: user_booking_reviews_path, method: :post, html: { class: 'form-horizontal' } do |form| %>
+<div class= "container my-3">
+  <h2 class="mt-5">Publier mon avis</h2>
+  <p class="my-3">
+    Petit rappel, tu dois noter
+    <strong><%= @booking.service.user.first_name.capitalize %> <%= @booking.service.user.last_name.upcase %></strong>
+    pour le service
+    <%= content_tag(:span, @booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+    (difficulté
+    <% case @booking.difficulty %>
+    <% when 'easy' %>
+      <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
+    <% when 'normal' %>
+      <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
+    <% when 'hard' %>
+      <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
+    <% end %>
+    ), du <strong><%= @booking.date.strftime("%d/%m/%Y à %H:%M") %></strong> à <strong><%= @booking.service.user.city %> </strong>
+    pour un coût de <%= @booking.price %>🥭 !
+  </p>
 
-  <%= form.input :rating, label: 'Note', input_html: { class: 'form-control', required: true } %>
-
-  <%= form.input :comment, label: 'Commentaire', as: :text, input_html: { class: 'form-control', required: true } %>
-
-  <%= form.button :submit, 'Créer commentaire', class: 'btn btn-primary mt-3' %>
-<% end %>
+  <%= simple_form_for @review, url: user_booking_reviews_path, method: :post, html: { class: 'form-horizontal my-3' } do |form| %>
+    <%= form.input :rating, label: 'Note', input_html: { class: 'form-control bg-white', required: true } %>
+    <%= form.input :comment, label: 'Commentaire', as: :text, input_html: { class: 'form-control bg-white', required: true } %>
+    <%= form.button :submit, 'Publier', class: 'btn btn-primary mt-3' %>
+  <% end %>
 </div>

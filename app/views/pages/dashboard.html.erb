@@ -50,13 +50,28 @@
   <% @authored_bookings.each do |authored_booking| %>
     <div class="notification my-3">
       <% user = authored_booking.service.user %>
-      <%= link_to 'Ajouter une review', new_user_booking_review_path(user_id: current_user, booking_id: authored_booking.id), class: 'btn btn-primary' %>
+      <% if authored_booking.approved? %>
+        <% if authored_booking.reviews.none? %>
+          <div class="w-25"><%= link_to 'Publier un avis', new_user_booking_review_path(user_id: current_user, booking_id: authored_booking.id), class: 'btn btn-primary w-100' %></div>
+        <% else %>
+          <div class="w-25"><div class='btn btn-outline-primary disabled w-100'>Avis déjà publié</div></div>
+        <% end %>
+      <% else %>
+        <div class="d-flex flex-column w-25 text-center">
+          <div class='btn btn-primary disabled'>Publier un avis</div>
+          <small class="mt-2">Disponible dès que la réservation sera acceptée</small>
+        </div>
+      <% end %>
       <div class="d-flex flex-column flex-grow-1">
         <div class="notification-content">
           <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
           <p>
             Demande de réservation auprès de
-            <strong><%= user.first_name.capitalize %> <%= user.last_name.upcase %></strong>
+            <strong>
+              <%= link_to user_path(user), class: "text-decoration-none" do %>
+                <%= user.first_name.capitalize %> <%= user.last_name.upcase %>
+              <% end %>
+            </strong>
             pour un service
             <%= content_tag(:span, authored_booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
             (difficulté
