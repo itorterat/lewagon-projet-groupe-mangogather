@@ -5,21 +5,20 @@
     <strong><%= @booking.service.user.first_name.capitalize %> <%= @booking.service.user.last_name.upcase %></strong>
     pour le service
     <%= content_tag(:span, @booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
-    (difficulté
     <% case @booking.difficulty %>
     <% when 'easy' %>
-      <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
+      <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
     <% when 'normal' %>
-      <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
+      <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
     <% when 'hard' %>
-      <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
+      <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
     <% end %>
-    ), du <strong><%= @booking.date.strftime("%d/%m/%Y à %H:%M") %></strong> à <strong><%= @booking.service.user.city %> </strong>
+    , du <strong><%= @booking.date.strftime("%d/%m/%Y à %H:%M") %></strong> à <strong><%= @booking.service.user.city %> </strong>
     pour un coût de <%= @booking.price %>🥭 !
   </p>
 
   <%= simple_form_for @review, url: user_booking_reviews_path, method: :post, html: { class: 'form-horizontal my-3' } do |form| %>
-    <%= form.input :rating, label: 'Note', input_html: { class: 'form-control bg-white', required: true } %>
+    <%= form.input :rating, label: 'Note (0 = mauvais, 5 = parfait)', input_html: { class: 'form-control bg-white', required: true, min: 0, max: 5 }, as: :integer %>
     <%= form.input :comment, label: 'Commentaire', as: :text, input_html: { class: 'form-control bg-white', required: true } %>
     <%= form.button :submit, 'Publier', class: 'btn btn-primary mt-3' %>
   <% end %>

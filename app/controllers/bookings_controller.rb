@@ -6,13 +6,11 @@ class BookingsController < ApplicationController
 
   def create
     @booking = Booking.new(booking_params)
-    tip = @booking.tip
     @booking.author = current_user
-    @booking.price = calculate_coefficient(@booking.difficulty) + tip
+    @booking.price = calculate_coefficient(@booking.difficulty) + @booking.tip
     @user = User.find(params[:user_id])
-    current_user.balance = current_user.balance - @booking.price
-    current_user.save!
     if @booking.save
+      current_user.update(balance: current_user.balance - @booking.price)
       redirect_to user_path(@user), notice: 'Réservation créée avec succès.'
     else
       render :new, alert: 'Erreur lors de la réservation !'
@@ -22,6 +20,7 @@ class BookingsController < ApplicationController
   def accept
     @booking = Booking.find(params[:id])
     if @booking.update(status: :approved)
+      current_user.update(balance: current_user.balance + @booking.price)
       redirect_to dashboard_path, notice: 'La réservation a été acceptée.'
     else
       redirect_to dashboard_path, alert: "Erreur lors de l'acceptation de la réservation."
@@ -31,6 +30,7 @@ class BookingsController < ApplicationController
   def decline
     @booking = Booking.find(params[:id])
     if @booking.update(status: :declined)
+      @booking.author.update(balance: @booking.author.balance + @booking.price)
       redirect_to dashboard_path, notice: 'La réservation a été refusée.'
     else
       redirect_to dashboard_path, alert: "Erreur lors du refus de la réservation."

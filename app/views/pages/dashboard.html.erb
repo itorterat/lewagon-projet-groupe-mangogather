@@ -4,90 +4,169 @@
     <p>Aucune demande de réservation reçue pour le moment.</p>
   <% end%>
   <% @bookings.each do |booking| %>
-    <div class="notification my-3">
-      <% author = booking.author %>
-      <% avatar = (author.photo.attached? ? author.photo : "random_user.png") %>
-      <%= image_tag avatar, class: "avatar-large" %>
-      <div class="d-flex flex-column flex-grow-1">
-        <div class="notification-content">
-          <p><small><%= booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
-          <p><strong><%= author.first_name.capitalize %> <%= author.last_name.upcase %></strong></p>
-          <p>
-            Souhaite réserver un service
-            <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
-            (difficulté
-            <% case booking.difficulty %>
-            <% when 'easy' %>
-              <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
-            <% when 'normal' %>
-              <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
-            <% when 'hard' %>
-              <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
+    <% if booking.pending? || booking.approved? %>
+      <div class="notification my-3">
+        <% author = booking.author %>
+        <% avatar = (author.photo.attached? ? author.photo : "random_user.png") %>
+        <%= image_tag avatar, class: "avatar-large" %>
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="notification-content">
+            <p><small><%= booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
+            <p><strong><%= author.first_name.capitalize %> <%= author.last_name.upcase %></strong></p>
+            <p>
+              Souhaite réserver un service
+              <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+              <% case booking.difficulty %>
+              <% when 'easy' %>
+                <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
+              <% when 'normal' %>
+                <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
+              <% when 'hard' %>
+                <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
+              <% end %>
+              , le <strong><%= booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>,
+              pour un gain de <%= booking.price %>🥭 !
+            </p>
+          </div>
+          <div class="notification-actions d-flex gap-3 justify-content-center my-3">
+            <% case %>
+              <% when booking.pending? %>
+                <%= button_to 'Accepter', accept_booking_path(booking), method: :patch, class: 'btn btn-outline-success px-5' %>
+                <%= button_to 'Refuser', decline_booking_path(booking), method: :patch, class: 'btn btn-outline-danger px-5' %>
+              <% when booking.approved? %>
+                <button class='btn btn-success disabled'>Acceptée</button>
+              <% when booking.declined? %>
+                <button class='btn btn-danger disabled'>Refusée</button>
             <% end %>
-            ), le <strong><%= booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>,
-            pour un gain de <%= booking.price %>🥭 !
-          </p>
-        </div>
-        <div class="notification-actions d-flex gap-3 justify-content-center my-3">
-          <% case %>
-            <% when booking.pending? %>
-              <%= button_to 'Accepter', accept_booking_path(booking), method: :patch, class: 'btn btn-outline-success px-5' %>
-              <%= button_to 'Refuser', decline_booking_path(booking), method: :patch, class: 'btn btn-outline-danger px-5' %>
-            <% when booking.approved? %>
-              <button class='btn btn-success disabled'>Acceptée</button>
-            <% when booking.declined? %>
-              <button class='btn btn-danger disabled'>Refusée</button>
-          <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <%end%>
   <% end %>
 
-  <h2 class="mt-5">Mes services reçus</h2>
+  <h2 class="mt-5">Demandes de services refusées</h2>
+  <% if @bookings.empty? %>
+    <p>Aucune demande de réservation reçue pour le moment.</p>
+  <% end%>
+  <% @bookings.each do |booking| %>
+    <% if booking.declined? %>
+      <div class="notification my-3">
+        <% user = booking.author %>
+        <div class="w-25 text-center">
+          <div class='btn btn-danger w-100'>Refusée</div>
+        </div>
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="notification-content">
+            <p><small>Créée le <%= booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
+            <p>
+              <strong>
+                <%= link_to user_path(user), class: "text-decoration-none" do %>
+                  <%= user.first_name.capitalize %> <%= user.last_name.upcase %>
+                <% end %>
+              </strong>
+              souhaitait réserver un service
+              <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+              <% case booking.difficulty %>
+              <% when 'easy' %>
+                <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
+              <% when 'normal' %>
+                <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
+              <% when 'hard' %>
+                <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
+              <% end %>
+              , </strong> le <strong><%= booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>
+              pour un gain de <%= booking.price %>🥭 !
+            </p>
+          </div>
+        </div>
+      </div>
+    <%end%>
+  <% end %>
+
+
+  <h2 class="mt-5">Mes demandes de réservation émises</h2>
   <% if @authored_bookings.empty? %>
     <p>Aucune demande de réservation effectuée pour le moment.</p>
   <% end%>
   <% @authored_bookings.each do |authored_booking| %>
-    <div class="notification my-3">
-      <% user = authored_booking.service.user %>
-      <% if authored_booking.approved? %>
-        <% if authored_booking.reviews.none? %>
-          <div class="w-25"><%= link_to 'Publier un avis', new_user_booking_review_path(user_id: current_user, booking_id: authored_booking.id), class: 'btn btn-primary w-100' %></div>
-        <% else %>
-          <div class="w-25"><div class='btn btn-outline-primary disabled w-100'>Avis déjà publié</div></div>
+    <% if authored_booking.approved? || authored_booking.pending? %>
+      <div class="notification my-3">
+        <% user = authored_booking.service.user %>
+        <% if authored_booking.approved? %>
+          <% if authored_booking.reviews.empty? %>
+            <div class="w-25"><%= link_to 'Publier un avis', new_user_booking_review_path(user_id: current_user, booking_id: authored_booking.id), class: 'btn btn-primary w-100' %></div>
+          <% else %>
+            <div class="w-25"><div class='btn btn-outline-primary disabled w-100'>Avis déjà publié</div></div>
+          <% end %>
+        <% elsif authored_booking.pending? %>
+          <div class="d-flex flex-column w-25 text-center">
+            <div class='btn btn-primary disabled w-100'>Publier un avis</div>
+            <small class="mt-2">Disponible dès que la réservation sera acceptée</small>
+          </div>
         <% end %>
-      <% else %>
-        <div class="d-flex flex-column w-25 text-center">
-          <div class='btn btn-primary disabled'>Publier un avis</div>
-          <small class="mt-2">Disponible dès que la réservation sera acceptée</small>
-        </div>
-      <% end %>
-      <div class="d-flex flex-column flex-grow-1">
-        <div class="notification-content">
-          <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
-          <p>
-            Demande de réservation auprès de
-            <strong>
-              <%= link_to user_path(user), class: "text-decoration-none" do %>
-                <%= user.first_name.capitalize %> <%= user.last_name.upcase %>
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="notification-content">
+            <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
+            <p>
+              Demande de réservation auprès de
+              <strong>
+                <%= link_to user_path(user), class: "text-decoration-none" do %>
+                  <%= user.first_name.capitalize %> <%= user.last_name.upcase %>
+                <% end %>
+              </strong>
+              pour un service
+              <%= content_tag(:span, authored_booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+              <% case authored_booking.difficulty %>
+              <% when 'easy' %>
+                <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
+              <% when 'normal' %>
+                <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
+              <% when 'hard' %>
+                <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
               <% end %>
-            </strong>
-            pour un service
-            <%= content_tag(:span, authored_booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
-            (difficulté
-            <% case authored_booking.difficulty %>
-            <% when 'easy' %>
-              <%= content_tag(:span, 'Facile', class: "badge fw-medium text-bg-success") %>
-            <% when 'normal' %>
-              <%= content_tag(:span, 'Moyenne', class: "badge fw-medium text-bg-warning") %>
-            <% when 'hard' %>
-              <%= content_tag(:span, 'Difficile', class: "badge fw-medium text-bg-danger") %>
-            <% end %>
-            ), le <strong><%= authored_booking.date.strftime("%d/%m/%Y à %H:%M") %></strong> à <strong><%= user.city %> </strong>
-            pour un coût de <%= authored_booking.price %>🥭 !
-          </p>
+              , à <strong><%= user.city %> </strong> le <strong><%= authored_booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>
+              pour un coût de <%= authored_booking.price %>🥭 !
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
+  <% end %>
+
+  <h2 class="mt-5">Mes demandes de réservation refusées</h2>
+  <% @authored_bookings.each do |authored_booking| %>
+    <% if authored_booking.declined? %>
+      <div class="notification my-3">
+        <% user = authored_booking.service.user %>
+        <div class="w-25 text-center">
+          <div class='btn btn-danger w-100'>Refusée</div>
+        </div>
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="notification-content">
+            <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
+            <p>
+              Demande de réservation auprès de
+              <strong>
+                <%= link_to user_path(user), class: "text-decoration-none" do %>
+                  <%= user.first_name.capitalize %> <%= user.last_name.upcase %>
+                <% end %>
+              </strong>
+              pour un service
+              <%= content_tag(:span, authored_booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+              <% case authored_booking.difficulty %>
+              <% when 'easy' %>
+                <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
+              <% when 'normal' %>
+                <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
+              <% when 'hard' %>
+                <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
+              <% end %>
+              , à <strong><%= user.city %> </strong> le <strong><%= authored_booking.date.strftime("%d/%m/%Y à %H:%M") %></strong>
+              pour un coût de <%= authored_booking.price %>🥭 !
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
