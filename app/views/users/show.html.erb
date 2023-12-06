@@ -7,51 +7,71 @@
       <%= image_tag avatar, class: "border border-2 border-primary rounded-circle w-50" %>
 
       <div class="align-items-center card-body d-flex flex-column text-center w-75">
-          <p><i class="fa-solid fa-quote-left"></i> <%= @user.description %> <i class="fa-solid fa-quote-right"></i></p>
-          <p><i class="fa-solid fa-location-dot"></i> <%= @user.city %></p>
-          <div class= "map col-4 mb-5 rounded-5 border shadow overflow-hidden" >
-            <div style="width: auto; height: 200px; "
-              data-controller="map"
-              data-map-markers-value="<%= @markers.to_json %>"
-              data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
-          </div>
-          <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
-          <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
-
-          <% if current_user %>
-            <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'  %>
-          <% else %>
-            <%= link_to 'Contacter', new_user_session_path, class: 'btn btn-primary my-3' %>
-          <% end %>
-
-      </div>
-</div>
-    <div class="card reviews col-8 my-3 shadow">
-  <h2 class="card text-center shadow">Avis sur l'utilisateur</h2>
-  <div class="card-body">
-    <% if @bookings.empty? %>
-      <p class="mt-5 text-left">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
-    <% else %>
-      <% @bookings.each do |booking| %>
-      <div class= "card reviews justfy-content mt-3">
-        <div class="media mt-3 shadow">
-          <% author = booking.reviews.first.author %>
-          <% avatar = (author.photo.attached? ? author.photo : "category_placeholder.png") %>
-
-          <img src="<%= url_for(avatar) %>" class="mr-3 rounded-circle" alt="Avatar" width="64" height="64">
-
-          <div class="media-body m-3">
-            <h5 class="mt-2"><%= author.first_name %> <%= author.last_name %></h5>
-            <p><strong>Note :</strong> <%= booking.reviews.first.rating %> </p>
-            <p><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></p>
-            </div>
-          </div>
+        <p><i class="fa-solid fa-quote-left"></i> <%= @user.description %> <i class="fa-solid fa-quote-right"></i></p>
+        <p><i class="fa-solid fa-location-dot"></i> <%= @user.city %></p>
+        <div class= "map col-4 mb-5 rounded-5 border shadow overflow-hidden" >
+          <div style="width: auto; height: 200px; "
+            data-controller="map"
+            data-map-markers-value="<%= @markers.to_json %>"
+            data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"></div>
         </div>
-      <% end %>
-    <% end %>
-  </div>
+        <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
+        <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
+
+        <% if current_user %>
+          <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'  %>
+        <% else %>
+          <%= link_to 'Contacter', new_user_session_path, class: 'btn btn-primary my-3' %>
+        <% end %>
+      </div>
     </div>
+
+    <div class="card col m-3 shadow">
+      <div class="card-body">
+        <h2 class="text-center">Avis sur l'utilisateur</h2>
+        <% if @bookings.empty? %>
+          <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
+        <% else %>
+          <ul class="list-group list-group-flush" style= "overflow-y: hidden; height: 60vh;">
+            <% @bookings.reverse.each do |booking| %>
+              <% review = booking.reviews.first %>
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <% avatar = (review.author.photo.attached? ? review.author.photo : "random_user.png") %>
+                  <%= image_tag avatar, class: "avatar-mini me-3", style: "width: 50px; height: 50px;" %>
+                  <div class="w-100">
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-0">
+                        <strong>
+                          <%= link_to user_path(review.author), class: "text-decoration-none" do %>
+                            <%= review.author.first_name.capitalize %> <%= review.author.last_name.upcase %>
+                          <% end %>
+                        </strong>
+                      </p>
+                      <p class="mb-0"><small>Posté le <%= review.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
+                    </div>
+                    <p class="mb-0">
+                      <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+                      <% case booking.difficulty %>
+                      <% when 'easy' %>
+                        <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
+                      <% when 'normal' %>
+                        <%= content_tag(:span, 'Difficulté moyenne', class: "badge fw-medium text-bg-warning") %>
+                      <% when 'hard' %>
+                        <%= content_tag(:span, 'Difficulté difficile', class: "badge fw-medium text-bg-danger") %>
+                      <% end %>
+                      <span class="mb-0 float-end">
+                        <%= (review.rating.times.map { '<i class="fa-solid fa-star"></i>' } + (5 - review.rating).times.map { '<i class="fa-regular fa-star"></i>' }).join.html_safe %>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0"><%= review.comment %></p>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
     </div>
-  </div>
   </div>
 </div>
