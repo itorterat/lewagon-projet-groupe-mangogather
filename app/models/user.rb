@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :sent_conversations, foreign_key: :sender_id, class_name: 'Conversation'
   has_many :received_conversations, foreign_key: :recipient_id, class_name: 'Conversation'
   has_many :messages, through: :conversations
+  has_many :reviews, through: :bookings
 
   enum :status, { visible: 0, invisible: 1 }, default: :visible
 
@@ -26,7 +27,7 @@ class User < ApplicationRecord
   def messages
     Message.where(conversation: conversations)
   end
-  
+
   def city_coordinates
     Geocoder.coordinates(self.city)
   end

@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   resources :users, only: %i[index show] do
-    resources :bookings, only: %i[new create]
+    resources :bookings, only: %i[new create] do
+      resources :reviews, only: %i[new create show]
+    end
   end
   get 'profile', to: 'users#edit_profile', as: :edit_profile
   patch 'profile', to: 'users#update_profile', as: :update_profile

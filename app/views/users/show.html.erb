@@ -17,18 +17,29 @@
           </div>
           <p><%= @user.categories.pluck(:name).sort.join(', ') %></p>
           <%= link_to "Réserver un service", new_user_booking_path(@user), class: 'btn btn-primary' %>
-          <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'  %>
+          <%= link_to 'Contacter', conversations_path(sender_id: current_user.id, recipient_id: @user.id), "data-turbo-method": :post, class: 'btn btn-primary my-3'%>
+
       </div>
     </div>
     <div class="card col m-3 shadow">
-      <div class="card-body text-center">
-        <h2>Avis sur l'utilisateur</h2>
-        <% if Booking.joins(:service).where(services: { user: @user }).joins(:reviews).empty? %>
-          <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
-        <% end %>
+     <div class="card-body text-align ">
+  <h2>Avis sur l'utilisateur</h2>
+  <% if @bookings.empty? %>
+    <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
+  <% else %>
+    <ul>
+      <% @bookings.each do |booking| %>
+        <li><strong>Note :</strong> <%= booking.reviews.first.rating %> </li>
+        <li><strong>Commentaire :</strong> <%= booking.reviews.first.comment %></li>
+      <% end %>
+    </ul>
+  <% end %>
       </div>
     </div>
   </div>
+  </div>
 </div>
+
+
 
   

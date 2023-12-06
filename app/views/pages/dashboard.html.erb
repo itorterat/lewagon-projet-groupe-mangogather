@@ -1,5 +1,5 @@
 <div class="container my-3">
-  <h2 class="mt-5">Demandes de réservations reçues pour mes services</h2>
+  <h2 class="mt-5">Demandes de services</h2>
   <% if @bookings.empty? %>
     <p>Aucune demande de réservation reçue pour le moment.</p>
   <% end%>
@@ -43,13 +43,14 @@
     </div>
   <% end %>
 
-  <h2 class="mt-5">Mes demandes de réservation effectuées</h2>
+  <h2 class="mt-5">Mes services reçus</h2>
   <% if @authored_bookings.empty? %>
     <p>Aucune demande de réservation effectuée pour le moment.</p>
   <% end%>
   <% @authored_bookings.each do |authored_booking| %>
     <div class="notification my-3">
       <% user = authored_booking.service.user %>
+      <%= link_to 'Ajouter une review', new_user_booking_review_path(user_id: current_user, booking_id: authored_booking.id), class: 'btn btn-primary' %>
       <div class="d-flex flex-column flex-grow-1">
         <div class="notification-content">
           <p><small>Créée le <%= authored_booking.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>

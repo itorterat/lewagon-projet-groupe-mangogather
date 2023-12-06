@@ -32,6 +32,7 @@ class UsersController < ApplicationController
   def show
     @booking = Booking.new
     @user = User.find(params[:id])
+    @bookings = Booking.joins(:service).where(services: { user: @user }).joins(:reviews)
     @users_count = {}
     @markers = [{
       lat: @user.latitude,
