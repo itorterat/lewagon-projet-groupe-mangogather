@@ -7,6 +7,7 @@ export default class extends Controller {
     flatpickr(this.element, {
       enableTime: true,
       time_24hr: true,
+      minDate: "today",
       plugins: [new ConfirmDatePlugin({})],
     });
   }
