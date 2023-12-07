@@ -11,7 +11,7 @@ class BookingsController < ApplicationController
     @user = User.find(params[:user_id])
     if @booking.save
       current_user.update(balance: current_user.balance - @booking.price)
-      redirect_to messages_path, notice: 'Réservation créée avec succès.'
+      redirect_to conversations_path, notice: 'Réservation créée avec succès.'
     else
       render :new, alert: 'Erreur lors de la réservation !'
     end

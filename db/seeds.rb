@@ -87,7 +87,7 @@ rym = User.create!(
 
 rym.photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'rym.png')), filename: 'rym.png')
 rym_info = Service.create!(user: rym, category: Category.find_by(name: 'Informatique'))
-Service.create!(user: rym, category: Category.find_by(name: 'Cuisine'))
+rym_cook = Service.create!(user: rym, category: Category.find_by(name: 'Cuisine'))
 
 yaya = User.create!(
   first_name: "Yaya",
@@ -101,7 +101,7 @@ yaya = User.create!(
 
 yaya.photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'yaya.png')), filename: 'yaya.png')
 Service.create!(user: yaya, category: Category.find_by(name: 'Bricolage'))
-Service.create!(user: yaya, category: Category.find_by(name: 'Informatique'))
+yaya_info = Service.create!(user: yaya, category: Category.find_by(name: 'Informatique'))
 
 irvin = User.create!(
   first_name: "Irvin",
@@ -157,7 +157,7 @@ first_names.each_with_index do |first_name, index|
     password: "123456"
   }
   u = User.new(user_data)
-  if rand(1..3) > 1
+  if rand(1..4) > 1
     u.photo.attach(io: URI.open(Faker::Avatar.image), filename: 'photo.jpg', content_type: 'image/jpeg')
   end
   u.save!
@@ -177,33 +177,66 @@ users.each do |user|
 end
 puts "\nFinished creating services!\n"
 
+random_user = users.sample
+Conversation.create!(sender: lilian, recipient: random_user)
+Message.create!(content: "Merci pour la dernière fois", author: random_user, receiver: lilian, conversation: Conversation.last, created_at: DateTime.new(2023, 12, 1, 9, 14))
+
 Conversation.create!(sender: lilian, recipient: irvin)
-Message.create!(content: "Pas de souci, on fera ça ensemble la prochaine fois!", author: lilian, receiver: irvin, conversation: Conversation.last)
+Message.create!(content: "Pas de souci, on fera ça ensemble la prochaine fois!", author: lilian, receiver: irvin, conversation: Conversation.last, created_at: DateTime.new(2023, 11, 21, 22, 0))
 Conversation.create!(sender: lilian, recipient: yaya)
-Message.create!(content: "A la prochaine ! Merci encore :)", author: yaya, receiver: lilian, conversation: Conversation.last)
+Message.create!(content: "A la prochaine ! Merci encore :)", author: yaya, receiver: lilian, conversation: Conversation.last, created_at: DateTime.new(2023, 11, 25, 18, 0))
 Conversation.create!(sender: lilian, recipient: ken)
-Message.create!(content: "SLT LILIAN SA TE DIS DE FAIRRE DU SPOR AVEC MOI ???", author: ken, receiver: lilian, conversation: Conversation.last)
+Message.create!(content: "SLT LILIAN SA TE DIS DE FAIRRE DU SPOR AVEC MOI ???", author: ken, receiver: lilian, conversation: Conversation.last, created_at: DateTime.new(2023, 12, 07, 22, 0))
+
+# LILIAN
+Booking.create!(author: irvin, service: lilian_sport, date: DateTime.new(2023, 11, 22, 15, 45), created_at: DateTime.new(2023, 11, 21, 21, 9), difficulty: "easy", status: "approved", price: 180)
+Booking.create!(author: yaya, service: lilian_meca, date: DateTime.new(2023, 11, 29, 9, 0), created_at: DateTime.new(2023, 11, 22, 12, 5),difficulty: "normal", status: "declined", price: 140)
 
 random_user = users.sample
-Booking.create!(author: irvin, service: lilian_sport, date: Date.today - 20000.minutes, difficulty: "easy", status: "approved", price: 120)
-Review.create!(author: irvin, booking: Booking.last, comment: "Super expérience, Lilian est très sympa et très pro !", rating: 5, created_at: Date.today - 11000.minutes)
+Booking.create!(author: random_user, service: lilian_meca, date: DateTime.new(2023, 12, 5, 14, 0), created_at: DateTime.new(2023, 12, 1, 9, 14), difficulty: "hard", status: "pending", price: 160)
 
-Booking.create!(author: random_user, service: lilian_meca, date: Date.today - 12000.minutes, difficulty: "normal", status: "approved", price: 150)
-Review.create!(author: random_user, booking: Booking.last, comment: "Trop bien la mécanique avec Lilian", rating: 5, created_at: Date.today - 10000.minutes)
 
-Booking.create!(author: users.sample, service: lilian_sport, date: Date.today - 10000.minutes, difficulty: "hard", status: "pending", price: 100)
+Booking.create!(author: lilian, service: yaya_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "normal", status: "approved", price: 200)
+Review.create!(author: lilian, booking: Booking.last, comment: "Super service !", rating: 5)
+
+Booking.create!(author: lilian, service: irvin_jardinage, date: DateTime.new(2023, 11, 28, 10, 0), created_at: DateTime.new(2023, 11, 25, 12, 54), difficulty: "hard", status: "declined", price: 210)
+
+# RYM
+Booking.create!(author: irvin, service: rym_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "normal", status: "approved", price: 200)
+Review.create!(author: irvin, booking: Booking.last, comment: "Trop cool ! Service incroyable!", rating: 5, created_at: DateTime.new(2023, 10, 25, 9, 54))
+
+Booking.create!(author: yaya, service: rym_cook, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "hard", status: "approved", price: 300)
+Review.create!(author: yaya, booking: Booking.last, comment: "Le plat qu'on a réalisé était succulent !", rating: 5, created_at: DateTime.new(2023, 11, 5, 12, 12))
 
 random_user = users.sample
-Booking.create!(author: random_user, service: lilian_sport, date: Date.today - 8000.minutes, difficulty: "normal", status: "approved", price: 200)
-Review.create!(author: random_user, booking: Booking.last, comment: "C'était bien, mais un peu difficile quand même !", rating: 4, created_at: Date.today - 7500.minutes)
+Booking.create!(author: random_user, service: rym_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "normal", status: "approved", price: 300)
+Review.create!(author: random_user, booking: Booking.last, comment: "Elle m'a bien aidé sur mon projet", rating: 4, created_at: DateTime.new(2023, 11, 17, 15, 9))
 
-Booking.create!(author: users.sample, service: lilian_meca, date: Date.today - 5500.minutes, difficulty: "hard", status: "pending", price: 200)
+random_user = users.sample
+Booking.create!(author: random_user, service: rym_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "easy", status: "approved", price: 300)
+Review.create!(author: random_user, booking: Booking.last, comment: "Parfait", rating: 5, created_at: DateTime.new(2023, 11, 25, 11, 18))
 
-Booking.create!(author: lilian, service: irvin_info, date: Date.today - 4500.minutes, difficulty: "easy", status: "pending", price: 130)
+Booking.create!(author: irvin, service: rym_cook, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "hard", status: "approved", price: 300)
+Review.create!(author: irvin, booking: Booking.last, comment: "Quelle chef!", rating: 5, created_at: DateTime.new(2023, 11, 30, 2, 49))
 
-Booking.create!(author: yaya, service: lilian_meca, date: Date.today - 4000.minutes, difficulty: "normal", status: "approved", price: 130)
-Review.create!(author: yaya, booking: Booking.last, comment: "Trop cool la séance de mécanique avec Lilian, la voiture est comme neuve!", rating: 5, created_at: Date.today - 3000.minutes)
+random_user = users.sample
+Booking.create!(author: random_user, service: rym_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "hard", status: "approved", price: 300)
+Review.create!(author: random_user, booking: Booking.last, comment: "Merci beaucoup", rating: 5, created_at: DateTime.new(2023, 12, 04, 13, 33))
 
-Booking.create!(author: lilian, service: irvin_jardinage, date: Date.today - 2000.minutes, difficulty: "normal", status: "pending", price: 130)
+# KEN
+Booking.create!(author: irvin, service: ken.services.sample, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "normal", status: "approved", price: 200)
+Review.create!(author: irvin, booking: Booking.last, comment: "Vraiment pitoyable, ne faites pas appel à lui", rating: 0, created_at: DateTime.new(2023, 9, 15, 9, 24))
 
-Booking.create!(author: irvin, service: lilian_sport, date: Date.today - 1000.minutes, difficulty: "normal", status: "declined", price: 200)
+Booking.create!(author: yaya, service: ken.services.sample, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "easy", status: "approved", price: 300)
+Review.create!(author: yaya, booking: Booking.last, comment: "Il n'est pas même pas venu au rendez-vous", rating: 0, created_at: DateTime.new(2023, 10, 5, 1, 9))
+
+Booking.create!(author: rym, service: ken.services.sample, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "hard", status: "approved", price: 300)
+Review.create!(author: rym, booking: Booking.last, comment: "Ken pense savoir tout faire, mais ne sait rien faire. Je lui ai demandé de l'aide, c'est moi qui l'ai aidé.", rating: 0, created_at: DateTime.new(2023, 11, 17, 12, 19))
+
+random_user = users.sample
+Booking.create!(author: random_user, service: ken.services.sample, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "easy", status: "approved", price: 300)
+Review.create!(author: random_user, booking: Booking.last, comment: "Pas fou, Ken est vraiment lourd...", rating: 1, created_at: DateTime.new(2023, 11, 22, 20, 1))
+
+random_user = users.sample
+Booking.create!(author: random_user, service: ken.services.sample, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "easy", status: "approved", price: 300)
+Review.create!(author: random_user, booking: Booking.last, comment: "J'aurai du lire les avis précédents...", rating: 2, created_at: DateTime.new(2023, 12, 2, 23, 27))
