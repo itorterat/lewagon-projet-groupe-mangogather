@@ -1,7 +1,7 @@
 <div class="container my-3">
   <%= link_to "Retour à la liste des utilisateurs", request.referrer || users_path, class: "btn btn-outline-primary mt-5" %>
   <div class="d-flex my-3">
-    <div class="align-items-center card col-4 d-flex flex-column my-3 shadow">
+    <div class="align-items-center bg-white card col-4 d-flex flex-column my-3 shadow">
       <h2 class="my-3"><%= @user.first_name.capitalize %> <%= @user.last_name.upcase %></h2>
       <% avatar = (@user.photo.attached? ? @user.photo : "random_user.png") %>
       <%= image_tag avatar, class: "border border-2 border-primary rounded-circle w-50" %>
@@ -26,16 +26,16 @@
       </div>
     </div>
 
-    <div class="card col m-3 shadow">
+    <div class="card bg-white col m-3 shadow">
       <div class="card-body">
         <h2 class="text-center">Avis sur l'utilisateur</h2>
         <% if @bookings.empty? %>
           <p class="mt-5">Pas d'avis sur <strong><%= @user.first_name %></strong> pour le moment !</p>
         <% else %>
           <ul class="list-group list-group-flush" style= "overflow-y: hidden; height: 60vh;">
-            <% @bookings.reverse.each do |booking| %>
-              <% review = booking.reviews.first %>
-              <li class="list-group-item">
+            <% reviews = @bookings.reverse.map { |booking| booking.reviews.first } %>
+            <% reviews.sort_by { |review| review.created_at}.reverse.each do |review| %>
+              <li class="bg-white list-group-item">
                 <div class="d-flex">
                   <% avatar = (review.author.photo.attached? ? review.author.photo : "random_user.png") %>
                   <%= image_tag avatar, class: "avatar-mini me-3", style: "width: 50px; height: 50px;" %>
@@ -51,8 +51,8 @@
                       <p class="mb-0"><small>Posté le <%= review.created_at.strftime("%d/%m/%Y à %H:%M") %></small></p>
                     </div>
                     <p class="mb-0">
-                      <%= content_tag(:span, booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
-                      <% case booking.difficulty %>
+                      <%= content_tag(:span, review.booking.service.category.name, class: "badge fw-medium text-bg-primary") %>
+                      <% case review.booking.difficulty %>
                       <% when 'easy' %>
                         <%= content_tag(:span, 'Difficulté facile', class: "badge fw-medium text-bg-success") %>
                       <% when 'normal' %>
