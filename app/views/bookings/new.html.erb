@@ -12,7 +12,7 @@
                 as: :string,
                 input_html: { data: { controller: "datepicker" }, required: true, class: 'bg-white'} %>
         <%= f.input :difficulty, input_html: { data: { booking_price_target: "formDifficulty" }, required: true, class: 'bg-white' }, label: "Difficulté", collection: [['Facile (Coût de base x0.75)', 'easy'], ['Moyen (Coût de base x1)', 'normal'], ['Difficile (Coût de base x1.5)', 'hard']], selected: 'normal' %>
-        <%= f.input :tip, input_html: {data: { booking_price_target: "formTip", action: "keyup->booking-price#calcul", class: 'bg-white' } }, label: "Pourboire"%>
+        <%= f.input :tip, input_html: {data: { booking_price_target: "formTip", action: "keyup->booking-price#calcul"} , class: 'bg-white' }, label: "Pourboire"%>
         <p>
           Coût total :
           (<span data-booking-price-target="category">0</span>
