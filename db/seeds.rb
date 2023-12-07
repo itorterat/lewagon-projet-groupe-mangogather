@@ -129,7 +129,7 @@ ken = User.create!(
   password: "123456"
 )
 
-ken.photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'irvin.png')), filename: 'irvin.png')
+ken.photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'ken.png')), filename: 'irvin.png')
 Service.create!(user: ken, category: Category.find_by(name: 'Bricolage'))
 Service.create!(user: ken, category: Category.find_by(name: 'Ménage'))
 Service.create!(user: ken, category: Category.find_by(name: 'Jardinage'))
