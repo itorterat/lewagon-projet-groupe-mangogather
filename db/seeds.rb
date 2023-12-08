@@ -66,7 +66,7 @@ lilian = User.create!(
   last_name: "Annette",
   balance: rand(1000..2000),
   description: "Je suis quelqu'un de très sportif et j'aime aider les gens. Je suis également très à l'aise en mécanique (voitures et motos) !",
-  city: "Évry",
+  city: "Paris",
   email: "lilian@annette.com",
   password: "123456"
 )
@@ -80,7 +80,7 @@ rym = User.create!(
   last_name: "Badji",
   balance: rand(1000..2000),
   description: "Passionnée d'informatique et grande cuisinière, je serais ravie de vous donner un coup de main !",
-  city: "Évry",
+  city: "Paris",
   email: "rym@badji.com",
   password: "123456"
 )
@@ -94,7 +94,7 @@ yaya = User.create!(
   last_name: "Niang",
   balance: rand(1000..2000),
   description: "J'adorerais vous aider dans vos projets de bricolage, et je peux aider en informatique si besoin !",
-  city: "Évry",
+  city: "Paris",
   email: "yaya@niang.com",
   password: "123456"
 )
@@ -108,7 +108,7 @@ irvin = User.create!(
   last_name: "Torterat",
   balance: rand(1000..2000),
   description: "J'ADORE le bricolage, le ménage, le jardinage et l'informatique ! LAISSEZ moi vous aider !",
-  city: "Évry",
+  city: "Paris",
   email: "irvin@torterat.com",
   password: "123456"
 )
@@ -124,7 +124,7 @@ ken = User.create!(
   last_name: "Juste",
   balance: rand(1000..2000),
   description: "Slt tt le monde moi c JUSTE Ken et jvais vou aidér! G grave de l'esspérience dan tout en fait ;) ;) ;)",
-  city: "Évry",
+  city: "Paris",
   email: "ken@juste.com",
   password: "123456"
 )
@@ -193,7 +193,7 @@ Booking.create!(author: irvin, service: lilian_sport, date: DateTime.new(2023, 1
 Booking.create!(author: yaya, service: lilian_meca, date: DateTime.new(2023, 11, 29, 9, 0), created_at: DateTime.new(2023, 11, 22, 12, 5),difficulty: "normal", status: "declined", price: 140)
 
 random_user = users.sample
-Booking.create!(author: random_user, service: lilian_meca, date: DateTime.new(2023, 12, 5, 14, 0), created_at: DateTime.new(2023, 12, 1, 9, 14), difficulty: "hard", status: "pending", price: 160)
+Booking.create!(author: random_user, service: lilian_meca, date: DateTime.new(2023, 12, 8, 13, 0), created_at: DateTime.new(2023, 12, 1, 9, 14), difficulty: "hard", status: "pending", price: 160)
 
 
 Booking.create!(author: lilian, service: yaya_info, date: DateTime.new(2023, 11, 24, 18, 0), created_at: DateTime.new(2023, 11, 21, 10, 23), difficulty: "normal", status: "approved", price: 200)
